@@ -24,5 +24,19 @@ define( 'AKZENT_POINTS_OF_INTEREST_VERSION', '1.0.1' );
 	// Run the plugin
 	\akzent_points_of_interest\Plugin::instance();
 }
-add_action( 'plugins_loaded', 'akzent_points_of_interest' );
 
+function akzent_points_of_interest_settings() {
+	require_once( __DIR__ . '/includes/settings.php');
+	\akzent_points_of_interest\Settings::add_default_options();
+	\akzent_points_of_interest\Settings::add_settings_api_defaults();
+}
+
+function akzent_point_of_interest_post_type() {
+	require_once( __DIR__ . '/includes/post_type.php');
+	\akzent_points_of_interest\PostType::register();
+}
+
+add_action( 'plugins_loaded', 'akzent_points_of_interest' );
+add_action( 'admin_menu', 'akzent_points_of_interest_settings');
+add_action( 'init', 'akzent_point_of_interest_post_type' );
+//add_action( 'update_option_akzent_point_of_interest_options', array(get_called_class(), 'get_point_of_interests'), 10, 2);

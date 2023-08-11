@@ -8,7 +8,6 @@ class Base extends \Elementor\Widget_Base {
   }
 
 	public function get_title() {
-		$a = 1;
     return 'Reiseinspirationen';
   }
 

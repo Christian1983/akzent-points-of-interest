@@ -2,12 +2,11 @@
 
 namespace akzent_points_of_interest;
 
-// Exit if accessed directly
-defined( 'ABSPATH' ) || exit;
 final class Plugin
 {
 
 	private static $_instance = null;
+  private $settings = null;
   const MINIMUM_ELEMENTOR_VERSION = '3.2.0';
   const MINIMUM_PHP_VERSION = '7.0';
 
@@ -24,9 +23,25 @@ final class Plugin
   {
 
     if ($this->is_compatible()) {
+      require_once( __DIR__ . '/settings.php');
       add_action('elementor/init', [$this, 'init']);
     }
 
+  }
+
+    /**
+   * Initialize
+   *
+   * Load the addons functionality only after Elementor is initialized.
+   *
+   * Fired by `elementor/init` action hook.
+   *
+   * @since 1.0.0
+   * @access public
+   */
+  public function init()
+  {
+    add_action( 'elementor/widgets/register', [ $this, 'register_widget' ] );
   }
 
 	/**
@@ -47,22 +62,6 @@ final class Plugin
 		return self::$_instance;
 
 	}
-
-
-  /**
-   * Initialize
-   *
-   * Load the addons functionality only after Elementor is initialized.
-   *
-   * Fired by `elementor/init` action hook.
-   *
-   * @since 1.0.0
-   * @access public
-   */
-  public function init()
-  {
-    add_action( 'elementor/widgets/register', [ $this, 'register_widget' ] );
-  }
 
   /**
    * Compatibility Checks
@@ -141,7 +140,7 @@ final class Plugin
 
     $message = sprintf(
       /* translators: 1: Plugin name 2: Elementor 3: Required Elementor version */
-      esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'elementor-test-addon'),
+      esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'AKZENT Reiseinspirationen'),
       '<strong>' . esc_html__('Elementor Test Addon', 'elementor-test-addon') . '</strong>',
       '<strong>' . esc_html__('Elementor', 'elementor-test-addon') . '</strong>',
       self::MINIMUM_ELEMENTOR_VERSION
@@ -167,7 +166,7 @@ final class Plugin
 
     $message = sprintf(
       /* translators: 1: Plugin name 2: PHP 3: Required PHP version */
-      esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'elementor-test-addon'),
+      esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'AKZENT Reiseinspirationen'),
       '<strong>' . esc_html__('Elementor Test Addon', 'elementor-test-addon') . '</strong>',
       '<strong>' . esc_html__('PHP', 'elementor-test-addon') . '</strong>',
       self::MINIMUM_PHP_VERSION
