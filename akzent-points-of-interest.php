@@ -36,7 +36,13 @@ function akzent_point_of_interest_post_type() {
 	\akzent_points_of_interest\PostType::register();
 }
 
+function get_points_of_interest() {
+	require_once( __DIR__ . '/includes/api.php');
+	\akzent_points_of_interest\API::get_all();
+}
+
 add_action( 'plugins_loaded', 'akzent_points_of_interest' );
 add_action( 'admin_menu', 'akzent_points_of_interest_settings');
 add_action( 'init', 'akzent_point_of_interest_post_type' );
+add_action( 'update_option_akzent_point_of_interest_options', 'get_points_of_interest', 10, 2);
 //add_action( 'update_option_akzent_point_of_interest_options', array(get_called_class(), 'get_point_of_interests'), 10, 2);
