@@ -13,14 +13,14 @@ final class API {
       $data = json_decode( $body );
       if ( !empty($data) ) {
         foreach( $data as $poi) {
-          AkzentPointOfInterestsPost::save($poi);
+          PointOfInterestPost::save($poi);
         }
       }
      }
   }
 
   public static function validate_url($api_key) {
-    $full_url = self::base_url() . "/{$api_key}/point_of_interests";
+    $full_url = self::base_url() . "/{$api_key}/points_of_interest";
     $response = wp_remote_get( $full_url );
     $a = 1;
     if (is_wp_error($response)) { return false; }
@@ -34,5 +34,11 @@ final class API {
     } else {
       return 'https://www.akzent.de/api/v2/hotels';
     }
+  }
+
+  private static function full_url() {
+    $api_key = get_option(Settings::OPTION)['api_key'];
+    $a = trailingslashit( self::base_url()  ) . trailingslashit( $api_key ) . 'points_of_interest';
+    return $a;
   }
 }

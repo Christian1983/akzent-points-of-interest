@@ -13,14 +13,21 @@
 
  // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
-
+define( 'AKZENT_POINTS_OF_INTEREST_VERSION', '1.0.0' );
 define( 'AKZENT_POINTS_OF_INTEREST_PATH', plugin_dir_path( __FILE__ ) );
 define( 'AKZENT_POINTS_OF_INTEREST_URL', plugin_dir_url( __FILE__ ) );
-define( 'AKZENT_POINTS_OF_INTEREST_VERSION', '1.0.1' );
 
- function akzent_points_of_interest() {
-	require_once( __DIR__ . '/includes/plugin.php' );
 
+require_once( __DIR__ . '/includes/plugin.php' );
+function plugin_deactivation()
+{
+	require_once( __DIR__ . '/includes/post_type.php');
+	\akzent_points_of_interest\PostType::destroy_all();
+	delete_option('akzent_point_of_interest_options');
+	unregister_post_type('points_of_interest');
+}
+
+function akzent_points_of_interest() {
 	// Run the plugin
 	\akzent_points_of_interest\Plugin::instance();
 }
@@ -31,9 +38,9 @@ function akzent_points_of_interest_settings() {
 	\akzent_points_of_interest\Settings::add_settings_api_defaults();
 }
 
-function akzent_point_of_interest_post_type() {
-	require_once( __DIR__ . '/includes/post_type.php');
-	\akzent_points_of_interest\PostType::register();
+function register_post_types() {
+	require_once( __DIR__ . '/includes/point_of_interest_post.php');
+	\akzent_points_of_interest\PointOfInterestPost::register();
 }
 
 function get_points_of_interest() {
@@ -41,8 +48,7 @@ function get_points_of_interest() {
 	\akzent_points_of_interest\API::get_all();
 }
 
-add_action( 'plugins_loaded', 'akzent_points_of_interest' );
 add_action( 'admin_menu', 'akzent_points_of_interest_settings');
-add_action( 'init', 'akzent_point_of_interest_post_type' );
+add_action( 'init', 'register_post_types' );
 add_action( 'update_option_akzent_point_of_interest_options', 'get_points_of_interest', 10, 2);
-//add_action( 'update_option_akzent_point_of_interest_options', array(get_called_class(), 'get_point_of_interests'), 10, 2);
+add_action( 'plugins_loaded', 'akzent_points_of_interest' );

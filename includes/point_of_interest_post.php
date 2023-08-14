@@ -1,7 +1,7 @@
 <?php
 
 namespace akzent_points_of_interest;
-class PostType {
+class PointOfInterestPost {
   public static function save($obj) {
     $t = self::find_by($obj->akzent_id);
     if ($t == NULL) {
@@ -36,7 +36,7 @@ class PostType {
       )
     );
 
-    $post_query = new WP_Query($query_args);
+    $post_query = new \WP_Query($query_args);
     if ($post_query->have_posts()) {
       return $post_query->the_post();
     } else {
@@ -47,10 +47,10 @@ class PostType {
   private static function create($obj) {
     $post_obj     = self::build_post_array($obj);
     $new_post_id  = wp_insert_post($post_obj);
-
-    $poi_image = new AkzentPointOfInterestImage($obj, $new_post_id);
-    $poi_image->create_poi_images();
-    self::create_post_meta_data(self::build_post_meta_array($obj), $new_post_id);
+    $a = 1;
+    //$poi_image = new AkzentPointOfInterestImage($obj, $new_post_id);
+    //$poi_image->create_poi_images();
+    //self::create_post_meta_data(self::build_post_meta_array($obj), $new_post_id);
     return $new_post_id;
   }
 

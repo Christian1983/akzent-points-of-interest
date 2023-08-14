@@ -23,8 +23,9 @@ final class Plugin
   {
 
     if ($this->is_compatible()) {
-      require_once( __DIR__ . '/settings.php');
       add_action('elementor/init', [$this, 'init']);
+    } else {
+      $a = 1;
     }
 
   }
@@ -76,6 +77,7 @@ final class Plugin
     require_once( __DIR__ . '/widgets/base.php');
     $widgets_manager->register(new widgets\Base);
   }
+
   public function is_compatible()
   {
     // Check if Elementor is installed and activated
@@ -116,7 +118,7 @@ final class Plugin
     $message = sprintf(
       /* translators: 1: Plugin name 2: Elementor */
       esc_html__('"%1$s" requires "%2$s" to be installed and activated.', 'elementor-test-addon'),
-      '<strong>' . esc_html__('Elementor Test Addon', 'elementor-test-addon') . '</strong>',
+      '<strong>' . esc_html__('AKZENT Reiseinspirationen', 'elementor-test-addon') . '</strong>',
       '<strong>' . esc_html__('Elementor', 'elementor-test-addon') . '</strong>'
     );
 
@@ -141,7 +143,7 @@ final class Plugin
     $message = sprintf(
       /* translators: 1: Plugin name 2: Elementor 3: Required Elementor version */
       esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'AKZENT Reiseinspirationen'),
-      '<strong>' . esc_html__('Elementor Test Addon', 'elementor-test-addon') . '</strong>',
+      '<strong>' . esc_html__('AKZENT Reiseinspirationen', 'elementor-test-addon') . '</strong>',
       '<strong>' . esc_html__('Elementor', 'elementor-test-addon') . '</strong>',
       self::MINIMUM_ELEMENTOR_VERSION
     );
@@ -167,7 +169,7 @@ final class Plugin
     $message = sprintf(
       /* translators: 1: Plugin name 2: PHP 3: Required PHP version */
       esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'AKZENT Reiseinspirationen'),
-      '<strong>' . esc_html__('Elementor Test Addon', 'elementor-test-addon') . '</strong>',
+      '<strong>' . esc_html__('AKZENT Reiseinspirationen', 'elementor-test-addon') . '</strong>',
       '<strong>' . esc_html__('PHP', 'elementor-test-addon') . '</strong>',
       self::MINIMUM_PHP_VERSION
     );
