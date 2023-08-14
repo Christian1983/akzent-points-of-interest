@@ -1,82 +1,53 @@
 <?php
 
-namespace akzent_points_of_interest;
+namespace AkzentPointsOfInterest;
 
-final class Plugin
+defined('ABSPATH') || exit;
+class Plugin
 {
 
-	private static $_instance = null;
-  private $settings = null;
+  public static $_instance = null;
+  public $settings;
+
   const MINIMUM_ELEMENTOR_VERSION = '3.2.0';
-  const MINIMUM_PHP_VERSION = '7.0';
 
-  /**
-   * Constructor
-   *
-   * Perform some compatibility checks to make sure basic requirements are meet.
-   * If all compatibility checks pass, initialize the functionality.
-   *
-   * @since 1.0.0
-   * @access public
-   */
-  public function __construct()
+  private function __construct()
   {
-
-    if ($this->is_compatible()) {
-      add_action('elementor/init', [$this, 'init']);
-    } else {
-      $a = 1;
-    }
-
+    add_action('init', [$this, 'init'], 0);
   }
 
-    /**
-   * Initialize
-   *
-   * Load the addons functionality only after Elementor is initialized.
-   *
-   * Fired by `elementor/init` action hook.
-   *
-   * @since 1.0.0
-   * @access public
-   */
+
   public function init()
   {
+    $this->load_files();
+    $this->settings = new Settings();
     add_action( 'elementor/widgets/register', [ $this, 'register_widget' ] );
   }
 
-	/**
-	 * Instance
-	 *
-	 * Ensures only one instance of the class is loaded or can be loaded.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 * @static
-	 * @return \Elementor_Test_Addon\Plugin An instance of the class.
-	 */
-	public static function instance() {
-
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-
-	}
-
-  /**
-   * Compatibility Checks
-   *
-   * Checks whether the site meets the addon requirement.
-   *
-   * @since 1.0.0
-   * @access public
-   */
+  private function load_files() {
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/settings.php';
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/api.php';
+  }
 
   public function register_widget( $widgets_manager ) {
-    require_once( __DIR__ . '/widgets/base.php');
-    $widgets_manager->register(new widgets\Base);
+    if ($this->is_compatible()) {
+      require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/base.php';
+      $widgets_manager->register(new widgets\Base);
+    }
   }
+
+  public static function instance()
+  {
+
+    if (is_null(self::$_instance)) {
+      self::$_instance = new self();
+      do_action('akzent_points_of_interest/loaded');
+    }
+
+    return self::$_instance;
+
+  }
+
 
   public function is_compatible()
   {
@@ -92,23 +63,10 @@ final class Plugin
       return false;
     }
 
-    // Check for required PHP version
-    if (version_compare(PHP_VERSION, self::MINIMUM_PHP_VERSION, '<')) {
-      add_action('admin_notices', [$this, 'admin_notice_minimum_php_version']);
-      return false;
-    }
 
     return true;
   }
 
-  /**
-   * Admin notice
-   *
-   * Warning when the site doesn't have Elementor installed or activated.
-   *
-   * @since 1.0.0
-   * @access public
-   */
   public function admin_notice_missing_main_plugin()
   {
 
@@ -142,43 +100,15 @@ final class Plugin
 
     $message = sprintf(
       /* translators: 1: Plugin name 2: Elementor 3: Required Elementor version */
-      esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'AKZENT Reiseinspirationen'),
-      '<strong>' . esc_html__('AKZENT Reiseinspirationen', 'elementor-test-addon') . '</strong>',
-      '<strong>' . esc_html__('Elementor', 'elementor-test-addon') . '</strong>',
+      esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', AKZENT_POINTS_OF_INTEREST_PLUGIN_NAME),
+      '<strong>' . AKZENT_POINTS_OF_INTEREST_PLUGIN_NAME . '</strong>',
+      '<strong>' . 'Elementor' . '</strong>',
       self::MINIMUM_ELEMENTOR_VERSION
     );
 
     printf('<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message);
 
   }
-
-  /**
-   * Admin notice
-   *
-   * Warning when the site doesn't have a minimum required PHP version.
-   *
-   * @since 1.0.0
-   * @access public
-   */
-  public function admin_notice_minimum_php_version()
-  {
-
-    if (isset($_GET['activate']))
-      unset($_GET['activate']);
-
-    $message = sprintf(
-      /* translators: 1: Plugin name 2: PHP 3: Required PHP version */
-      esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'AKZENT Reiseinspirationen'),
-      '<strong>' . esc_html__('AKZENT Reiseinspirationen', 'elementor-test-addon') . '</strong>',
-      '<strong>' . esc_html__('PHP', 'elementor-test-addon') . '</strong>',
-      self::MINIMUM_PHP_VERSION
-    );
-
-    printf('<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message);
-
-  }
-
-
 
 }
 

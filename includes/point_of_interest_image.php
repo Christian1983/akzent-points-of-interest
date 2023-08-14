@@ -1,6 +1,6 @@
 <?php
 
-namespace akzent_points_of_interest;
+namespace AkzentPointsOfInterest;
 class PointOfInterestImage {
   private $obj;
   private $post_id;

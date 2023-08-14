@@ -1,6 +1,6 @@
 <?php
 
-namespace akzent_points_of_interest;
+namespace AkzentPointsOfInterest;
 class PointOfInterestPost {
   public static function save($obj) {
     $t = self::find_by($obj->akzent_id);

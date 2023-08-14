@@ -1,6 +1,6 @@
 <?php
 
-namespace akzent_points_of_interest\widgets;
+namespace AkzentPointsOfInterest\widgets;
 
 class Base extends \Elementor\Widget_Base {
 	public function get_name() {
