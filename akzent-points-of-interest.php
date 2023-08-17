@@ -17,6 +17,7 @@ define('AKZENT_POINTS_OF_INTEREST_VERSION', '1.0.0');
 define('AKZENT_POINTS_OF_INTEREST_FILE', __FILE__);
 define('AKZENT_POINTS_OF_INTEREST_PATH', plugin_dir_path(AKZENT_POINTS_OF_INTEREST_FILE));
 define('AKZENT_POINTS_OF_INTEREST_PLUGIN_NAME', 'AKZENT Reiseinspirationen');
+define('AKZENT_POINTS_OF_INTEREST_DEFAULT_ICON', 'dashicons-sticky');
 
 if (!version_compare(PHP_VERSION, '7.0', '>=')) {
 //TODO: implement

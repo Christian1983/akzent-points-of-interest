@@ -1,6 +1,6 @@
 <?php
 
-namespace AkzentPointsOfInterest\widgets;
+namespace AkzentPointsOfInterest\Widgets;
 
 class Base extends \Elementor\Widget_Base {
 	public function get_name() {
@@ -20,7 +20,7 @@ class Base extends \Elementor\Widget_Base {
   }
 
 	public function get_categories() {
-    return [ 'basic' ];
+    return [ 'akzent-points-of-interest' ];
   }
 
   public function get_keywords() {
