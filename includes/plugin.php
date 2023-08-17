@@ -29,6 +29,7 @@ class Plugin
     add_action('elementor/elements/categories_registered', [$this, 'register_widgets_category']);
     add_action('elementor/widgets/register', [$this, 'register_widgets']);
     add_action('akzent_points_of_interest/valid_api_key', [$this, 'register_poi_fetch']);
+    $a=Models\PointOfInterest::find('635a82d4088840cd2e00004e');
   }
 
   private function load_files()
@@ -98,7 +99,11 @@ class Plugin
 
     $cpt_objects = $this->api->get_all();
     foreach($cpt_objects as $object) {
-      $cpt = new PointOfInterest($object);
+      $poi = new PointOfInterest($object);
+      foreach($object->images as $image_object) {
+        //$image = new PointOfInterestImage();
+      }
+
     }
 
   }

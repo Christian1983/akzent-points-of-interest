@@ -1,87 +1,106 @@
 <?php
 
 namespace AkzentPointsOfInterest\Core;
-use function AkzentPointsOfInterest\Helper\to_camel_case;
+
 use function AkzentPointsOfInterest\Helper\to_snake_case;
 
 defined('ABSPATH') || exit;
 
-class BaseModel {
+class BaseModel
+{
 
-  private $model_name;
-  private $post_name;
-  private $menu_visibility;
-  private $menu_icon;
-  private $menu_order;
-  private $inflections;
+  //beschreibt welche attribute die zb von einer api kommen
+  //direkt im post oder wenn nicht in default_post_attributes vorhanden
+  //dann in meta informationen gespeichert werden.
+  const DEFAULT_POST_ATTRIBUTES = [
+    'title' => 'post_title',
+    'name' => 'post_title',
+    'description' => 'post_content',
+    'content' => 'post_content',
+    'display' => 'post_status',
+    'updated_at' => 'post_modified'
+  ];
+
+  private $attributes;
+
+  private $attributes_ref;
+
+  private $relations;
+
+  private $new_record;
 
 
-  public function __construct($object) {
-    $path = explode('\\', get_called_class());
-    $this->model_name = array_pop($path);
-    $this->post_name = to_snake_case($this->model_name);
-    $this->create_from_object($object);
+  public function __construct($attributes = null)
+  {
+    if ($attributes) {
+      $this->new_record = true;
+      $this->attributes = $attributes;
+      $this->attributes_ref = $attributes;
+    }
   }
 
-  public static function all() {
+  // getter für attributes
+  // wir nutzten array_key_exists da wir auch ein return bei NULL wollen.
+  public function __call($key, $args)
+  {
+    if (array_key_exists($key, $this->attributes)) {
+      return $this->attributes[$key];
+    } elseif (array_key_exists($key, $this->relations)) {
+      //todo: implement relations
+      //return $this->relations[$key];
+      return null;
+    } else {
+      return null;
+    }
+  }
+
+  public function save() {
+    do_action(to_snake_case(get_called_class()) . '_after_save');
+    return true;
+  }
+
+  public static function all()
+  {
     $query_args = array(
-      'post_type' => 'points_of_interest',
+      'post_type' => self::post_type_table_name(),
     );
 
     $post_query = new \WP_Query($query_args);
     return $post_query->posts;
   }
 
-  public static function find($id) {
+  public static function find($akzent_id)
+  {
     $query_args = array(
-      'post_type' => 'points_of_interest',
+      'post_type' => self::post_type_table_name(),
       'meta_query' => array(
         array(
           'key' => 'akzent_id',
-          'value' => $id,
+          'value' => $akzent_id,
           'compare' => '='
         )
       )
     );
 
     $post_query = new \WP_Query($query_args);
-    return $post_query->posts[0];
+    $a = $post_query->posts[0];
+    $b = 1;
   }
 
-  public function create_from_object($object) {
-    $post_array       = self::build_post_array($object);
-    $post_meta_array  = self::build_post_meta_array($object);
-    $new_post_id      = wp_insert_post($post_array);
-    if (is_wp_error(!$new_post_id)) {
-      foreach($post_meta_array as $key => $value) {
-        add_post_meta($new_post_id, $key, $value);
-      }
-      return $this->find($object->akzent_id);
-    }
-  }
-  private function build_post_array($object) {
-    $title    = $object->name;
-    $desc     = $object->description;
-    $disply   = $object->display;
-
-    return array(
-      'post_title' => $title,
-      'post_content' => $desc,
-      'post_status' => $disply ? 'publish' : 'private',
-      'post_author' => 1,
-      'post_type' => 'points_of_interest'
-    );
+  // holt alle post daten (post selbst und meta)
+  // und baut den attributes array auf.
+  private static function fetch_attributes_from_db($post_id)
+  {
+    $a = get_post($post_id);
+    $b = get_post_meta($post_id);
+    $c = 1;
   }
 
-  private function build_post_meta_array($object) {
-    return array(
-      'akzent_id' => $object->akzent_id,
-      'rating'  => $object->rating,
-      'number_of_ratings' => $object->number_of_ratings,
-      'display'  => $object->display,
-      'zipcode'  => $object->zipcode,
-      'city'     => $object->city,
-      'street'   => $object->street
-    );
+  private static function post_type_table_name()
+  {
+    $path = explode('\\', get_called_class());
+    $a = to_snake_case(array_pop($path));
+    return $a;
   }
+
 }
