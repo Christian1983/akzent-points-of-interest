@@ -1,0 +1,43 @@
+version: '3.6'
+
+services:
+    db:
+        image: mysql:5.7
+        volumes:
+          - data_db:/var/lib/mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: 123456789
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: wordpress
+            MYSQL_PASSWORD: wordpress
+        ports:
+            - 3306:3306
+
+    wordpress:
+        build:
+            dockerfile: Dockerfile # this line is actually redundant here - you need it only if you want to use some custom name for your Dockerfile
+            context: ./xdebug # a path to a directory containing a Dockerfile, or a URL to a git repository.
+        depends_on:
+            - db
+        ports:
+            - 8080:80
+        restart: always
+        environment:
+            WORDPRESS_DEBUG: 1
+            WORDPRESS_DB_HOST: db:3306
+            WORDPRESS_DB_USER: wordpress
+            WORDPRESS_DB_PASSWORD: wordpress
+            XDEBUG_MODe: debug
+            XDEBUG_CONFIG: client_host=docker.for.mac.localhost client_port=9003
+        volumes:
+            - ./plugins:/var/www/html/wp-content/plugins
+            - ./themes:/var/www/html/wp-content/themes
+            - ./uploads:/var/www/html/wp-content/uploads
+            - ./logs:/var/www/html/wp-content/logs
+volumes:
+    data_db:
+
+networks:
+  default:
+    name: akzent
