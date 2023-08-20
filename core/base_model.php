@@ -33,7 +33,11 @@ class BaseModel
   public function __construct($attributes = null)
   {
     if ($attributes) {
-      $this->new_record = true;
+      if (isset($attributes['id'])) {
+        $this->new_record = false;
+      } else {
+        $this->new_record = true;
+      }
       $this->attributes = $attributes;
       $this->attributes_ref = $attributes;
     }
@@ -65,8 +69,14 @@ class BaseModel
       'post_type' => self::post_type_table_name(),
     );
 
+    $object_array = [];
     $post_query = new \WP_Query($query_args);
-    return $post_query->posts;
+    foreach($posts_query->posts as $post ) {
+      $attr = self:fetch_attributes_from_db($post->id);
+      $object_array[] = new self($attr);
+    }
+
+    return $object_array;
   }
 
   public static function find($akzent_id)
@@ -83,8 +93,14 @@ class BaseModel
     );
 
     $post_query = new \WP_Query($query_args);
-    $a = $post_query->posts[0];
-    $b = 1;
+    if($post_query->has_posts()) {
+      $post = $post_query->posts[0];
+      $id   = $post->id;
+      $attr = self::fetch_attributes_from_db($id);
+      return new self($attr);
+    } else {
+      return null;
+    }
   }
 
   // holt alle post daten (post selbst und meta)
@@ -93,7 +109,7 @@ class BaseModel
   {
     $a = get_post($post_id);
     $b = get_post_meta($post_id);
-    $c = 1;
+    $this->attributes=array_merge($a, $b);
   }
 
   private static function post_type_table_name()
