@@ -28,7 +28,7 @@ class Plugin
     add_action('init', [$this, 'register_poi_post_type']);
     add_action('elementor/elements/categories_registered', [$this, 'register_widgets_category']);
     add_action('elementor/widgets/register', [$this, 'register_widgets']);
-    add_action('akzent_points_of_interest_api_key_changed', [$this, 'initial_fetch_points_of_interest']);
+    add_action('update_option_' . Settings::OPTIONS_BASE_NAME, [$this, 'initial_fetch_points_of_interest']);
 
   }
 
@@ -38,6 +38,7 @@ class Plugin
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/api.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/helper/string.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest.php';
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest_image.php';
   }
 
   public function register_poi_post_type()

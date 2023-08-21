@@ -1,6 +1,8 @@
 <?php
 
 namespace AkzentPointsOfInterest\Models;
+use AkzentPointsOfInterest\Models\PointOfInterestImage;
+
 class PointOfInterest {
   public static function save($obj) {
     $t = self::find_by($obj->akzent_id);
@@ -39,6 +41,11 @@ class PointOfInterest {
 
     foreach($post_meta_array as $key => $value) {
       add_post_meta( $new_post_id, $key, $value );
+    }
+
+    if (!empty($obj->images)) {
+      $image = new PointOfInterestImage($obj->name, $obj->images[0], $new_post_id);
+      $image->save();
     }
 
     return true;
