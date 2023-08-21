@@ -29,7 +29,7 @@ class Plugin
     add_action('elementor/elements/categories_registered', [$this, 'register_widgets_category']);
     add_action('elementor/widgets/register', [$this, 'register_widgets']);
     add_action('update_option_' . Settings::OPTIONS_BASE_NAME, [$this, 'initial_fetch_points_of_interest']);
-
+    add_action('wp_enqueue_scripts', [$this, 'register_widget_styles']);
   }
 
   private function load_files()
@@ -39,6 +39,10 @@ class Plugin
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/helper/string.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest_image.php';
+  }
+
+  public function register_widget_styles() {
+    wp_register_style('akzent_post_list_widget_style', plugins_url('assets/css/post_list.css', AKZENT_POINTS_OF_INTEREST_FILE), [ 'elementor-frontend'] );
   }
 
   public function register_poi_post_type()
@@ -83,9 +87,9 @@ class Plugin
   public function register_widgets($widgets_manager)
   {
     if ($this->is_compatible()) {
-      require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/base.php';
+      require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/list.php';
       require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/slider.php';
-      $widgets_manager->register(new Widgets\Base);
+      $widgets_manager->register(new Widgets\PostList);
       $widgets_manager->register(new Widgets\Slider);
     }
   }

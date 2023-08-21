@@ -30,7 +30,12 @@ class PointOfInterestImage {
   }
 
   private function build_filepath($poi_name) {
-    $path = AKZENT_POINTS_OF_INTEREST_PATH . 'assets/images/' . str_replace(' ', '_', strtolower($poi_name));
+    $path = wp_upload_dir();
+    if(wp_mkdir_p($path['path'])) {
+      $path = trailingslashit( wp_upload_dir()['path'] ) . $poi_name;
+    } else {
+      $path = trailingslashit( wp_upload_dir()['basedir'] ) . $poi_name;
+    }
     if ( !is_dir($path) ) { wp_mkdir_p($path); }
     return $path;
   }

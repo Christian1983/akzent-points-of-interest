@@ -13,7 +13,50 @@ class PointOfInterest {
     }
   }
 
-  private static function find_by($akzent_id) {
+  // returns all points_of_interest as StdClass
+  // merges meta and post attributes like a real model (i love rails :)
+  public static function all() {
+    $query_args = array(
+      'post_type' => 'points_of_interest',
+    );
+
+    $final_array = array();
+    $i = 0;
+    $post_query = new \WP_Query($query_args);
+    if ($post_query->have_posts()) {
+      foreach($post_query->posts as $post_object) {
+        $final_object = new \stdClass();
+        $meta_object  = get_post_meta($post_object->ID);
+
+        foreach($post_object as $key => $value) {
+          $final_object->$key = $value;
+        }
+
+        // da meta's 1 zu n sind müssen wir den array auflösen
+        foreach($meta_object as $key => $value) {
+          $final_object->$key = $value[0];
+        }
+
+        $final_array[] = $final_object;
+      }
+
+    }
+
+    return $final_array;
+  }
+
+  public static function first() {
+    $query_args = array(
+      'post_type' => 'points_of_interest',
+    );
+
+    $post_query = new \WP_Query($query_args);
+    if ($post_query->have_posts()) {
+      return $post_query->posts[0];
+    }
+  }
+
+  public static function find_by($akzent_id) {
     $query_args = array(
       'post_type' => 'points_of_interest',
       'meta_query' => array(
@@ -89,6 +132,7 @@ class PointOfInterest {
       'rating'  => $obj->rating,
       'number_of_ratings' => $obj->number_of_ratings,
       'display'  => $obj->display,
+      'distance' => $obj->distance,
       'zipcode'  => $obj->zipcode,
       'city'     => $obj->city,
       'street'   => $obj->street
