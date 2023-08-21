@@ -28,8 +28,8 @@ class Plugin
     add_action('init', [$this, 'register_poi_post_type']);
     add_action('elementor/elements/categories_registered', [$this, 'register_widgets_category']);
     add_action('elementor/widgets/register', [$this, 'register_widgets']);
-    add_action('akzent_points_of_interest/valid_api_key', [$this, 'register_poi_fetch']);
-    $a=Models\PointOfInterest::find('635a82d4088840cd2e00004e');
+    add_action('akzent_points_of_interest_api_key_changed', [$this, 'initial_fetch_points_of_interest']);
+
   }
 
   private function load_files()
@@ -37,14 +37,13 @@ class Plugin
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/settings.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/api.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/helper/string.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'core/base_model.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest.php';
   }
 
   public function register_poi_post_type()
   {
     $result = register_post_type(
-      'points_of_interest',
+      'point_of_interest',
       array(
         'labels' => array(
           'name' => __('Reiseinspirationen'),
@@ -91,21 +90,12 @@ class Plugin
   }
 
   // initial create of poi model
-  public function register_poi_fetch()
+  public function initial_fetch_points_of_interest()
   {
-    //TODO: implement a Transients for a secure way to ask the akzent api again.
-    //eg.: set_transient("fetch_poi_{$akzent_id}_again", 0, 2*DAY_IN_SECONDS)
-    //so it should be done on the model
-
     $cpt_objects = $this->api->get_all();
     foreach($cpt_objects as $object) {
-      $poi = new PointOfInterest($object);
-      foreach($object->images as $image_object) {
-        //$image = new PointOfInterestImage();
-      }
-
+      $is_saved = Models\PointOfInterest::save($object);
     }
-
   }
 
   public static function instance()
