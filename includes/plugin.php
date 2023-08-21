@@ -29,7 +29,7 @@ class Plugin
     add_action('elementor/elements/categories_registered', [$this, 'register_widgets_category']);
     add_action('elementor/widgets/register', [$this, 'register_widgets']);
     add_action('update_option_' . Settings::OPTIONS_BASE_NAME, [$this, 'initial_fetch_points_of_interest']);
-    add_action('wp_enqueue_scripts', [$this, 'register_widget_styles']);
+    add_action('wp_enqueue_scripts', [$this, 'register_widget_styles_and_scripts']);
   }
 
   private function load_files()
@@ -41,8 +41,11 @@ class Plugin
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest_image.php';
   }
 
-  public function register_widget_styles() {
+  public function register_widget_styles_and_scripts() {
     wp_register_style('akzent_post_list_widget_style', plugins_url('assets/css/post_list.css', AKZENT_POINTS_OF_INTEREST_FILE), [ 'elementor-frontend'] );
+    wp_register_style('akzent_slider_widget_style', plugins_url('assets/lib/swiper/css/swiper.min.css', AKZENT_POINTS_OF_INTEREST_FILE), [ 'elementor-frontend'] );
+    wp_register_script('akzent_slider_widget_swiper_script', plugins_url('assets/lib/swiper/swiper.min.js', AKZENT_POINTS_OF_INTEREST_FILE), [ 'elementor-frontend'] );
+    wp_register_script('akzent_slider_widget_script', plugins_url('assets/js/slider.js', AKZENT_POINTS_OF_INTEREST_FILE), [ 'elementor-frontend']);
   }
 
   public function register_poi_post_type()

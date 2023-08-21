@@ -1,6 +1,7 @@
 <?php
 
 namespace AkzentPointsOfInterest\Widgets;
+defined('ABSPATH') || exit;
 
 class Base extends \Elementor\Widget_Base {
 	public function get_name() {
