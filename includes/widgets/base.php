@@ -137,46 +137,5 @@ abstract class WidgetBase extends \Elementor\Widget_Base {
     $this->end_controls_section();
 	}
 
-  protected function render() {
-		$settings = $this->get_settings_for_display();
-		?>
-		<ul>
-		<?php foreach ( $settings['list'] as $index => $item ) : ?>
-			<li>
-				<?php
-				if ( ! $item['link']['url'] ) {
-					echo $item['text'];
-				} else {
-					?><a href="<?php echo esc_url( $item['link']['url'] ); ?>"><?php echo $item['text']; ?></a><?php
-				}
-				?>
-			</li>
-		<?php endforeach; ?>
-		</ul>
-		<?php
-	}
-
-	protected function content_template() {
-		?>
-		<ul>
-		<#
-		if ( settings.list ) {
-			_.each( settings.list, function( item, index ) {
-			#>
-			<li>
-				<# if ( item.link && item.link.url ) { #>
-					<a href="{{{ item.link.url }}}">{{{ item.text }}}</a>
-				<# } else { #>
-					{{{ item.text }}}
-				<# } #>
-			</li>
-			<#
-			} );
-		}
-		#>
-		</ul>
-		<?php
-	}
-
 
 }
