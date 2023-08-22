@@ -3,10 +3,8 @@
 namespace AkzentPointsOfInterest\Widgets;
 defined('ABSPATH') || exit;
 
-use AkzentPointsOfInterest\Models\PointOfInterest;
-use AkzentPointsOfInterest\Widgets\WidgetBase;
 use Elementor\Controls_Manager;
-
+use AkzentPointsOfInterest\Render;
 
 class CardGrid extends WidgetBase {
 
@@ -86,63 +84,18 @@ class CardGrid extends WidgetBase {
   protected function render() {
     $settings = $this->get_settings_for_display();
     $this->get_points_of_interest_for_settings($settings);
+    $a = $this->points_of_interest;
 
 		?>
 		<div id="AkzentCardGrid" class="row row-cols-1 row-cols-md-<?php echo $settings['card_grid_columns_tablet']?> row-cols-lg-<?php echo $settings['card_grid_columns_desktop']?> g-4">
-      <?php foreach ( $this->points_of_interest as $index => $point ) : ?>
+      <?php foreach ( $this->points_of_interest as $point ) : ?>
         <div class="col">
-          <?php echo $this->card_template($point); ?>
+          <?php $this->render->card_vertical($point); ?>
         </div>
       <?php endforeach; ?>
     </div>
 		<?php
 	}
-
-  protected function card_template($point) {
-    $img_html = get_the_post_thumbnail($point->ID);
-    $img_url  = get_the_post_thumbnail_url($point->ID);
-    ?>
-      <div class="card">
-        <img class="card-img-top" style="height: 10vw; object-fit: cover;" src="<?php echo $img_url ?>" alt="">
-        <div class="card-body">
-          <div class="card-title akzent-point-of-interest-title" style="margin-bottom: 2rem">
-            <div><?php echo $point->post_title ?></div>
-            <div class="akzent-point-of-interest-address-line" style="font-size: 12px">
-              <span><?php echo $point->street ?></span>
-              <span><?php echo $point->city ?></span>
-              <span><?php echo $point->zipcode ?></span>
-            </div>
-          </div>
-          <div>
-            <div>
-              <span class="akzent-point-of-interest-distance-symbol" style="margin-right: 5px"><i class="eicon-map-pin"></i></span>
-              <span class="akzent-point-of-interest-distance"><?php echo "{$point->distance} entfernt" ?></span>
-            </div>
-            <div>
-              <span class="akzent-point-of-interest-rating-symbol" style="margin-right: 5px"><i class="eicon-rating"></i></span>
-              <span class="akzent-point-of-interest-rating-stars"><?php echo "{$this->star_rating_render($point->rating)}" ?></span>
-            </div>
-          </div>
-        </div>
-        <div class="akzent-point-of-interest-footer card-footer" style="text-align:center">
-          <small style="font-size: 1rem; color: white">Details</small>
-        </div>
-      </div>
-    <?php
-  }
-
-  private function star_rating_render($rating) {
-    $final_str = "";
-
-    for ($i = 1; $i <= 5; $i++) {
-      if ($rating >= 0.8) { $final_str .= "<small style='padding-top: 2px;' class='dashicons dashicons-star-filled'></small>"; }
-      elseif ($rating >= 0.3) { $final_str .= "<small style='padding-top: 2px;' class='dashicons dashicons-star-half'></small>"; }
-      else { $final_str .= "<small style='padding-top: 2px;' class='dashicons dashicons-star-empty'></small>"; }
-      $rating = $rating - 1.0;
-    }
-
-    return $final_str;
-  }
 
 
 }

@@ -4,11 +4,14 @@ namespace AkzentPointsOfInterest\Widgets;
 defined('ABSPATH') || exit;
 
 use AkzentPointsOfInterest\Models\PointOfInterest;
+use AkzentPointsOfInterest\Render;
 use Elementor\Controls_Manager;
 
 abstract class WidgetBase extends \Elementor\Widget_Base {
 
 	public $points_of_interest;
+
+	public $render;
 
   protected function register_controls() {
 
@@ -180,6 +183,7 @@ abstract class WidgetBase extends \Elementor\Widget_Base {
 	}
 
 	public function get_points_of_interest_for_settings($settings) {
+		$this->render = new Render();
 		$this->points_of_interest = PointOfInterest::filter($settings['akzent_sort_field'], $settings['akzent_sort_direction']);
 	}
 

@@ -3,13 +3,7 @@
 namespace AkzentPointsOfInterest\Widgets;
 defined('ABSPATH') || exit;
 
-use AkzentPointsOfInterest\Models\PointOfInterest;
-use \Elementor\Core\Kits\Documents\Tabs\Global_Colors;
-use \Elementor\Controls_Manager;
-use \Elementor\Icons_Manager;
-use \Elementor\Group_Control_Image_Size;
-use \Elementor\Widget_Image_Carousel;
-class Slider extends Widget_Image_Carousel {
+class Slider extends WidgetBase {
 
 	public function get_style_depends() {
 		return [ 'akzent_slider_widget_style' ];
