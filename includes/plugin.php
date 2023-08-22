@@ -1,10 +1,10 @@
 <?php
 
 namespace AkzentPointsOfInterest;
-
+defined('ABSPATH') || exit;
 use AkzentPointsOfInterest\Models\PointOfInterest;
 
-defined('ABSPATH') || exit;
+
 class Plugin
 {
 

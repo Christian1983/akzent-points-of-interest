@@ -14,7 +14,7 @@ class CardGrid extends WidgetBase {
 
   public function __construct( $data = [], $args = null ) {
 		parent::__construct( $data, $args );
-    add_action( 'elementor/element/akzent-points-of-interest-card-grid/section_typography_color/after_section_end', [$this, 'inject_custom_controls'], 10, 3 );
+    //add_action( 'elementor/element/akzent-points-of-interest-card-grid/section_typography_color/after_section_end', [$this, 'inject_custom_controls'], 10, 3 );
 
   }
 
@@ -85,10 +85,11 @@ class CardGrid extends WidgetBase {
 
   protected function render() {
     $settings = $this->get_settings_for_display();
-    $points_of_interest = PointOfInterest::all();
+    $this->get_points_of_interest_for_settings($settings);
+
 		?>
 		<div id="AkzentCardGrid" class="row row-cols-1 row-cols-md-<?php echo $settings['card_grid_columns_tablet']?> row-cols-lg-<?php echo $settings['card_grid_columns_desktop']?> g-4">
-      <?php foreach ( $points_of_interest as $index => $point ) : ?>
+      <?php foreach ( $this->points_of_interest as $index => $point ) : ?>
         <div class="col">
           <?php echo $this->card_template($point); ?>
         </div>

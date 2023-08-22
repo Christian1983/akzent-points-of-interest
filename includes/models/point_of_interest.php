@@ -13,33 +13,93 @@ class PointOfInterest {
     }
   }
 
-  // returns all points_of_interest as StdClass
-  // merges meta and post attributes like a real model (i love rails :)
+  // returns all points_of_interest as StdClass in an Array
   public static function all() {
-    $query_args = array(
-      'post_type' => 'points_of_interest',
-    );
+    return self::filter();
+  }
 
-    $final_array = array();
-    $i = 0;
+	/**
+	 * Sort and filter
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string   $orderBy        Field wich should be used for order
+	 * @param string   $orderDesc      Order direction
+	 * @param array    $metaFilter     Contains all filter for meta fields eg.: ['akzent_id', 123, '='] or ['rating', 2.5, '=>']
+	 */
+  public static function filter($orderBy='post_title', $orderDesc=false, $metaFilter=[]) {
+    $query_args = self::sanitize_filter($orderBy, $orderDesc, $metaFilter);
+
     $post_query = new \WP_Query($query_args);
     if ($post_query->have_posts()) {
-      foreach($post_query->posts as $post_object) {
-        $final_object = new \stdClass();
-        $meta_object  = get_post_meta($post_object->ID);
+      return self::build_model_object_from($post_query->posts);
+    }
+  }
 
-        foreach($post_object as $key => $value) {
-          $final_object->$key = $value;
+
+  /**
+	 * Sanitizes the filter params and builds an array
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string   $orderBy        Field wich should be used for order
+	 * @param string   $orderDesc      Order direction
+	 * @param array    $metaFilter     Contains all filter for meta fields eg.: ['akzent_id', 123, '='] or ['rating', 2.5, '=>']
+	 */
+  private static function sanitize_filter($orderBy, $orderDesc, $metaFilter) {
+    $filterObject = array();
+
+    $filterObject['post_type'] = 'points_of_interest';
+    $filterObject['order'] = $orderDesc ? 'DESC' : 'ASC';
+    if ($orderBy == 'name' || $orderBy == 'title' || $orderBy == 'post_title') {
+      $filterObject['orderBy'] = 'post_title';
+    } else {
+      $filterObject['orderBy'] = 'meta_' . $orderBy;
+    }
+
+    if (!empty($metaFilter)) {
+      $filterObject['meta_query'] = array();
+      foreach($metaFilter as $index => $filter_array) {
+        $field = $filter_array[0];
+        $value = $filter_array[1];
+        $compare = $filter_array[2];
+        $final_meta_filter_array[] = array(
+          'key' => $field,
+          'value' => $value,
+          'compare' => $compare
+          );
         }
+    }
 
-        // da meta's 1 zu n sind müssen wir den array auflösen
-        foreach($meta_object as $key => $value) {
-          $final_object->$key = $value[0];
-        }
+    return $filterObject;
+  }
 
-        $final_array[] = $final_object;
+  // merges meta and post attributes like a real model (i love rails :))
+  // TODO:
+  // i still need an idea to make this a real object with relations
+  // i want something like:
+  // point = PointOfInterest->first
+  // point->images->first->url
+  // point->images->fisst-html_tag
+
+  private static function build_model_object_from($posts) {
+    $final_array = array();
+    foreach($posts as $post_object) {
+      $final_object = new \stdClass();
+      $meta_object  = get_post_meta($post_object->ID);
+
+      foreach($post_object as $key => $value) {
+        $final_object->$key = $value;
       }
 
+      // da meta's 1 zu n sind müssen wir den array auflösen
+      foreach($meta_object as $key => $value) {
+        $final_object->$key = $value[0];
+      }
+
+      $final_array[] = $final_object;
     }
 
     return $final_array;

@@ -3,11 +3,53 @@
 namespace AkzentPointsOfInterest\Widgets;
 defined('ABSPATH') || exit;
 
+use AkzentPointsOfInterest\Models\PointOfInterest;
 use Elementor\Controls_Manager;
 
 abstract class WidgetBase extends \Elementor\Widget_Base {
 
+	public $points_of_interest;
+
   protected function register_controls() {
+
+		$this->start_controls_section(
+			'section_data',
+			[
+				'label' => 'Daten',
+				'tab' => Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		$this->add_control(
+			'akzent_sort_field',
+			[
+				'label' => 'Sortieren nach',
+				'type' => Controls_Manager::SELECT,
+				'default' => 'post_title',
+				'options' => [
+          'post_title' => 'Name',
+          'rating' => 'Bewertungen',
+					'number_of_ratings' => 'anzahl Bewertungen',
+          'distance' => 'Entfernung',
+				],
+			]
+		);
+
+		// wird an $orderDesc (boolean) übergeben
+		$this->add_control(
+			'akzent_sort_direction',
+			[
+				'label' => 'Sortier Reihenfolge',
+				'type' => Controls_Manager::SELECT,
+				'default' => false,
+				'options' => [
+					0 => 'Aufsteigend',
+					1 => 'Absteigend',
+				],
+			]
+		);
+
+		$this->end_controls_section();
 
 		$this->start_controls_section(
 			'section_layout',
@@ -135,6 +177,10 @@ abstract class WidgetBase extends \Elementor\Widget_Base {
     );
 
     $this->end_controls_section();
+	}
+
+	public function get_points_of_interest_for_settings($settings) {
+		$this->points_of_interest = PointOfInterest::filter($settings['akzent_sort_field'], $settings['akzent_sort_direction']);
 	}
 
 
