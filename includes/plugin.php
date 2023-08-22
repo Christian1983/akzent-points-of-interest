@@ -92,6 +92,7 @@ class Plugin
   public function register_widgets($widgets_manager)
   {
     if ($this->is_compatible()) {
+      require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/base.php';
       require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/list.php';
       require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/slider.php';
       require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/card_grid.php';

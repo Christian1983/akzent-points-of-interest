@@ -4,18 +4,63 @@ namespace AkzentPointsOfInterest\Widgets;
 defined('ABSPATH') || exit;
 
 use AkzentPointsOfInterest\Models\PointOfInterest;
-use Elementor\Widget_Base;
+use AkzentPointsOfInterest\Widgets\WidgetBase;
 use Elementor\Controls_Manager;
-use Elementor\Group_Control_Background;
-use Elementor\Plugin;
 
-class CardGrid extends Widget_Base {
+
+class CardGrid extends WidgetBase {
+
+  private $controls_injected = false;
+
+  public function __construct( $data = [], $args = null ) {
+		parent::__construct( $data, $args );
+    add_action( 'elementor/element/akzent-points-of-interest-card-grid/section_typography_color/after_section_end', [$this, 'inject_custom_controls'], 10, 3 );
+
+  }
+
+  public function inject_custom_controls($element, $args ) {
+
+    $element->start_controls_section(
+			'section_footer',
+			[
+				'label' => 'Footer',
+				'tab' => Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+    $element->add_control(
+      'background_color_footer',
+      [
+        'label' => 'Hintergrund',
+        'type' => Controls_Manager::COLOR,
+        'default' => '#4b68c9',
+        'selectors' => [
+          '{{WRAPPER}} .akzent-point-of-interest-footer' => 'background: {{VALUE}}',
+        ],
+      ]
+    );
+
+    $element->add_control(
+      'text_color_footer',
+      [
+        'label' => 'Text',
+        'type' => Controls_Manager::COLOR,
+        'default' => '#FFF',
+        'selectors' => [
+          '{{WRAPPER}} .akzent-point-of-interest-footer' => 'color: {{VALUE}}',
+        ],
+      ]
+    );
+
+    $element->end_controls_section();
+
+  }
 
   public function get_style_depends() {
     return [ 'akzent_base_layout_style' ];
    }
 	public function get_name() {
-    return 'Card Grid';
+    return 'akzent-points-of-interest-card-grid';
   }
 
 	public function get_title() {
@@ -36,149 +81,6 @@ class CardGrid extends Widget_Base {
 
   public function get_keywords() {
 		return [ 'image', 'photo', 'visual', 'grid', 'card', 'post', 'akzent' ];
-	}
-
-  protected function register_controls() {
-
-		$this->start_controls_section(
-			'section_layout',
-			[
-				'label' => 'Layout',
-				'tab' => Controls_Manager::TAB_CONTENT,
-			]
-		);
-
-		$this->add_control(
-			'card_grid_columns_tablet',
-			[
-				'label' => 'Spalten Tablet',
-				'type' => Controls_Manager::SELECT,
-				'default' => 2,
-				'options' => [
-          '1' => 1,
-          '2' => 2,
-          '3' => 3,
-          '4' => 4,
-          '5' => 6,
-          '6' => 7,
-				],
-			]
-		);
-
-		$this->add_control(
-			'card_grid_columns_desktop',
-			[
-				'label' => 'Spalten desktop',
-				'type' => \Elementor\Controls_Manager::SELECT,
-				'default' => 3,
-				'options' => [
-          '1' => 1,
-          '2' => 2,
-          '3' => 3,
-          '4' => 4,
-          '5' => 6,
-          '6' => 7,
-				],
-			]
-		);
-
-		$this->end_controls_section();
-
-
-    $this->start_controls_section(
-			'section_typography_color',
-			[
-				'label' => 'Farben',
-				'tab' => Controls_Manager::TAB_CONTENT,
-			]
-		);
-
-    $this->add_control(
-      'text_color_title',
-      [
-        'label' => 'Titel',
-				'type' => Controls_Manager::COLOR,
-        'default' => '#777',
-				'selectors' => [
-					'{{WRAPPER}} .akzent-point-of-interest-title' => 'color: {{VALUE}}',
-				],
-      ]
-    );
-
-    $this->add_control(
-      'text_color_adress',
-      [
-        'label' => 'Adresse',
-				'type' => Controls_Manager::COLOR,
-        'default' => '#777',
-				'selectors' => [
-					'{{WRAPPER}} .akzent-point-of-interest-address-line' => 'color: {{VALUE}}',
-				],
-      ]
-    );
-
-    $this->add_control(
-      'text_color_distance_symbol',
-      [
-        'label' => 'Entfernung',
-				'type' => Controls_Manager::COLOR,
-        'default' => '#777',
-				'selectors' => [
-					'{{WRAPPER}} .akzent-point-of-interest-distance-symbol' => 'color: {{VALUE}}',
-				],
-      ]
-    );
-
-    $this->add_control(
-      'text_color_distance',
-      [
-        'label' => 'Entfernung',
-				'type' => Controls_Manager::COLOR,
-        'default' => '#777',
-				'selectors' => [
-					'{{WRAPPER}} .akzent-point-of-interest-distance' => 'color: {{VALUE}}',
-				],
-      ]
-    );
-
-    $this->add_control(
-      'text_color_rating_symbol',
-      [
-        'label' => 'Bewertungs Indikator',
-				'type' => Controls_Manager::COLOR,
-        'default' => '#000',
-				'selectors' => [
-					'{{WRAPPER}} .akzent-point-of-interest-rating-symbol' => 'color: {{VALUE}}',
-				],
-      ]
-    );
-
-    $this->add_control(
-      'text_color_ratings_stars',
-      [
-        'label' => 'Bewertungssymbole',
-				'type' => Controls_Manager::COLOR,
-        'default' => '#000',
-				'selectors' => [
-					'{{WRAPPER}} .akzent-point-of-interest-rating-stars' => 'color: {{VALUE}}',
-				],
-      ]
-    );
-
-    $this->add_control(
-      'text_color_footer',
-      [
-        'label' => 'Footer',
-				'type' => Controls_Manager::COLOR,
-        'default' => '#4b68c9',
-				'selectors' => [
-					'{{WRAPPER}} .akzent-point-of-interest-footer' => 'background: {{VALUE}}',
-				],
-      ]
-    );
-
-    $this->end_controls_section();
-
 	}
 
   protected function render() {

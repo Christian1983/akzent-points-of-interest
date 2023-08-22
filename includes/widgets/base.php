@@ -3,7 +3,9 @@
 namespace AkzentPointsOfInterest\Widgets;
 defined('ABSPATH') || exit;
 
-abstract class Base extends \Elementor\Widget_Base {
+use Elementor\Controls_Manager;
+
+abstract class WidgetBase extends \Elementor\Widget_Base {
 
   protected function register_controls() {
 
@@ -132,20 +134,7 @@ abstract class Base extends \Elementor\Widget_Base {
       ]
     );
 
-    $this->add_control(
-      'text_color_footer',
-      [
-        'label' => 'Footer',
-				'type' => Controls_Manager::COLOR,
-        'default' => '#4b68c9',
-				'selectors' => [
-					'{{WRAPPER}} .akzent-point-of-interest-footer' => 'background: {{VALUE}}',
-				],
-      ]
-    );
-
     $this->end_controls_section();
-
 	}
 
   protected function render() {
