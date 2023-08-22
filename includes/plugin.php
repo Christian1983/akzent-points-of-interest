@@ -42,6 +42,8 @@ class Plugin
   }
 
   public function register_widget_styles_and_scripts() {
+    wp_register_style('akzent_base_layout_style', plugins_url('assets/lib/bootstrap/bootstrap5.min.css', AKZENT_POINTS_OF_INTEREST_FILE) );
+    wp_register_style('akzent_base_layout_style', plugins_url('assets/css/layout.css', AKZENT_POINTS_OF_INTEREST_FILE) );
     wp_register_style('akzent_post_list_widget_style', plugins_url('assets/css/post_list.css', AKZENT_POINTS_OF_INTEREST_FILE), [ 'elementor-frontend'] );
     wp_register_style('akzent_slider_widget_style', plugins_url('assets/lib/swiper/css/swiper.min.css', AKZENT_POINTS_OF_INTEREST_FILE), [ 'elementor-frontend'] );
     wp_register_script('akzent_slider_widget_swiper_script', plugins_url('assets/lib/swiper/swiper.min.js', AKZENT_POINTS_OF_INTEREST_FILE), [ 'elementor-frontend'] );
@@ -92,8 +94,10 @@ class Plugin
     if ($this->is_compatible()) {
       require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/list.php';
       require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/slider.php';
+      require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/card_grid.php';
       $widgets_manager->register(new Widgets\PostList);
-      $widgets_manager->register(new Widgets\Slider);
+      $widgets_manager->register(new Widgets\CardGrid);
+      //$widgets_manager->register(new Widgets\Slider);
     }
   }
 

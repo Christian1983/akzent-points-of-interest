@@ -13,9 +13,15 @@
 }
 
 .akzent-header {
-  margin: 0px 0px 15px 0px !important;
+  margin: 0 !important;
   color: #777 !important;
-  border-bottom: 1px solid #e8e8e8
+}
+
+.akzent-header-address {
+  color: #777 !important;
+  border-bottom: 1px solid #e8e8e8;
+  margin-bottom: 10px;
+  justify-content: space-between;
 }
 
 .akzent-footer {

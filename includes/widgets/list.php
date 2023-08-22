@@ -12,13 +12,12 @@ use Elementor\Widget_Base;
 
 class PostList extends Widget_Base {
 
-
   public function __construct($data = [], $args = null) {
     parent::__construct($data, $args);
  }
 
  public function get_style_depends() {
-  return [ 'akzent_post_list_widget_style' ];
+  return [ 'akzent_base_layout_style', 'akzent_post_list_widget_style' ];
  }
 
 	public function get_name() {
@@ -56,7 +55,12 @@ class PostList extends Widget_Base {
               <?php echo get_the_post_thumbnail($point->ID) ?>
             </div>
             <div class="akzent-post-list-content">
-              <h3 class='akzent-header'><?php echo $point->post_title ?></h3>
+              <h4 class='akzent-header'><?php echo $point->post_title ?></h4>
+              <div class="akzent-header-address akzent-post-flex">
+                <small><?php echo $point->zipcode ?></small>
+                <small><?php echo $point->street ?></small>
+                <small><?php echo $point->city ?></small>
+              </div>
               <p><?php echo $point->post_content?></p>
             </div>
           </div>

@@ -3,76 +3,148 @@
 namespace AkzentPointsOfInterest\Widgets;
 defined('ABSPATH') || exit;
 
-class Base extends \Elementor\Widget_Base {
-	public function get_name() {
-    return 'AKZENT Reiseinspirationen';
-  }
-
-	public function get_title() {
-    return 'Reiseinspirationen';
-  }
-
-	public function get_icon() {
-    return 'eicon-star';
-  }
-
-	public function get_custom_help_url() {
-    return 'https://www.akzent.de';
-  }
-
-	public function get_categories() {
-    return [ 'akzent-points-of-interest' ];
-  }
-
-  public function get_keywords() {
-		return [ 'keyword', 'keyword' ];
-	}
+abstract class Base extends \Elementor\Widget_Base {
 
   protected function register_controls() {
 
 		$this->start_controls_section(
-			'section_content',
+			'section_layout',
 			[
-				'label' => esc_html__( 'Content', 'textdomain' ),
-				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+				'label' => 'Layout',
+				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
 
 		$this->add_control(
-			'list',
+			'card_grid_columns_tablet',
 			[
-				'label' => esc_html__( 'List', 'textdomain' ),
-				'type' => \Elementor\Controls_Manager::REPEATER,
-				'fields' => [
-					[
-						'name' => 'text',
-						'label' => esc_html__( 'Text', 'textdomain' ),
-						'type' => \Elementor\Controls_Manager::TEXT,
-						'placeholder' => esc_html__( 'List Item', 'textdomain' ),
-						'default' => esc_html__( 'List Item', 'textdomain' ),
-					],
-					[
-						'name' => 'link',
-						'label' => esc_html__( 'Link', 'textdomain' ),
-						'type' => \Elementor\Controls_Manager::URL,
-						'placeholder' => esc_html__( 'https://your-link.com', 'textdomain' ),
-					],
+				'label' => 'Spalten Tablet',
+				'type' => Controls_Manager::SELECT,
+				'default' => 2,
+				'options' => [
+          '1' => 1,
+          '2' => 2,
+          '3' => 3,
+          '4' => 4,
+          '5' => 6,
+          '6' => 7,
 				],
-				'default' => [
-					[
-						'text' => esc_html__( 'List Item #1', 'textdomain' ),
-						'link' => 'https://elementor.com/',
-					],
-					[
-						'text' => esc_html__( 'List Item #2', 'textdomain' ),
-						'link' => 'https://elementor.com/',
-					],
+			]
+		);
+
+		$this->add_control(
+			'card_grid_columns_desktop',
+			[
+				'label' => 'Spalten desktop',
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 3,
+				'options' => [
+          '1' => 1,
+          '2' => 2,
+          '3' => 3,
+          '4' => 4,
+          '5' => 6,
+          '6' => 7,
 				],
-				'title_field' => '{{{ text }}}',
 			]
 		);
 
 		$this->end_controls_section();
+
+
+    $this->start_controls_section(
+			'section_typography_color',
+			[
+				'label' => 'Farben',
+				'tab' => Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+    $this->add_control(
+      'text_color_title',
+      [
+        'label' => 'Titel',
+				'type' => Controls_Manager::COLOR,
+        'default' => '#777',
+				'selectors' => [
+					'{{WRAPPER}} .akzent-point-of-interest-title' => 'color: {{VALUE}}',
+				],
+      ]
+    );
+
+    $this->add_control(
+      'text_color_adress',
+      [
+        'label' => 'Adresse',
+				'type' => Controls_Manager::COLOR,
+        'default' => '#777',
+				'selectors' => [
+					'{{WRAPPER}} .akzent-point-of-interest-address-line' => 'color: {{VALUE}}',
+				],
+      ]
+    );
+
+    $this->add_control(
+      'text_color_distance_symbol',
+      [
+        'label' => 'Entfernung',
+				'type' => Controls_Manager::COLOR,
+        'default' => '#777',
+				'selectors' => [
+					'{{WRAPPER}} .akzent-point-of-interest-distance-symbol' => 'color: {{VALUE}}',
+				],
+      ]
+    );
+
+    $this->add_control(
+      'text_color_distance',
+      [
+        'label' => 'Entfernung',
+				'type' => Controls_Manager::COLOR,
+        'default' => '#777',
+				'selectors' => [
+					'{{WRAPPER}} .akzent-point-of-interest-distance' => 'color: {{VALUE}}',
+				],
+      ]
+    );
+
+    $this->add_control(
+      'text_color_rating_symbol',
+      [
+        'label' => 'Bewertungs Indikator',
+				'type' => Controls_Manager::COLOR,
+        'default' => '#000',
+				'selectors' => [
+					'{{WRAPPER}} .akzent-point-of-interest-rating-symbol' => 'color: {{VALUE}}',
+				],
+      ]
+    );
+
+    $this->add_control(
+      'text_color_ratings_stars',
+      [
+        'label' => 'Bewertungssymbole',
+				'type' => Controls_Manager::COLOR,
+        'default' => '#000',
+				'selectors' => [
+					'{{WRAPPER}} .akzent-point-of-interest-rating-stars' => 'color: {{VALUE}}',
+				],
+      ]
+    );
+
+    $this->add_control(
+      'text_color_footer',
+      [
+        'label' => 'Footer',
+				'type' => Controls_Manager::COLOR,
+        'default' => '#4b68c9',
+				'selectors' => [
+					'{{WRAPPER}} .akzent-point-of-interest-footer' => 'background: {{VALUE}}',
+				],
+      ]
+    );
+
+    $this->end_controls_section();
 
 	}
 

@@ -1,0 +1,112 @@
+.akzent-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+[class*="akzent-grid-"] {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-auto-rows: 1fr;
+  grid-column-gap: 5px;
+  grid-row-gap: 55px;
+  max-width: 100%;
+}
+
+.akzent-grid-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.akzent-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.akzent-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.akzent-grid-item {
+  padding: 0.5em;
+  margin-bottom: 20px;
+}
+
+.akzent-h100 { height: 100%; }
+.ahzent-h50 { height: 50% }
+.ahzent-h25 { height: 25% }
+
+.akzent-w100 { width: 100%; }
+.ahzent-w50 { width: 50% }
+.ahzent-w25 { width: 25% }
+
+.akzent-m-1 {margin: 1rem 1rem 1rem 1rem}
+.akzent-m-2 {margin: 2rem 2rem 2rem 2rem}
+.akzent-m-3 {margin: 3rem 3rem 3rem 3rem}
+.akzent-m-4 {margin: 4rem 4rem 4rem 4rem}
+
+.akzent-mb-1 {margin-bottom: 1rem}
+.akzent-mb-2 {margin-bottom: 2rem}
+.akzent-mb-3 {margin-bottom: 3rem}
+.akzent-mb-4 {margin-bottom: 4rem}
+
+
+.akzent-mx-1 {margin: 0 1rem 0 1rem}
+.akzent-mx-2 {margin: 0 2rem 0 2rem}
+.akzent-mx-3 {margin: 0 3rem 0 3rem}
+.akzent-mx-4 {margin: 0 4rem 0 4rem}
+
+
+.akzent-space-between {justify-content: space-between;}
+.akzent-align-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.akzent-texxt-center { text-align: center; }
+
+.akzent-card {
+  box-shadow: 4px 10px 25px -10px rgba(0,0,0,0.5);
+  transition: all 0.5 ease-in;
+}
+
+.akzent-card-img {
+  overflow: hidden;
+  width: 100%;
+  height: 45%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: bottom;
+}
+
+.akzent-card-title {
+  color: #777;
+  border-bottom: 1px solid #f2f2f2;
+  font-weight: 500;
+}
+
+.akzent-card-body {
+  word-wrap: break-word;
+  padding: 15px
+}
+
+.akzent-card-footer {
+  display: flex;
+  padding: 0.25rem;
+  margin-top: 15px;
+  height: 10%;
+  transition: all 0.5s;
+}
+
+.akzent-card-footer &:hover {
+  text-shadow: 1px 1px white;
+}
+
+[class*="akzent-col-"] {
+  width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .akzent-col-1 {width: 33.33%;}
+  .akzent-col-2 {width: 50%;}
+  .akzent-col-3 {width: 100%;}
+}
