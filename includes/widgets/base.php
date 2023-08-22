@@ -13,6 +13,10 @@ abstract class WidgetBase extends \Elementor\Widget_Base {
 
 	public $render;
 
+	public function get_style_depends() {
+    return [ 'akzent_base_layout_style', 'akzent_base_card_style' ];
+   }
+
   protected function register_controls() {
 
 		$this->start_controls_section(
@@ -61,6 +65,52 @@ abstract class WidgetBase extends \Elementor\Widget_Base {
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
+
+		$sizes = array();
+		foreach(get_intermediate_image_sizes() as $size) {
+			$sizes[$size] = $size;
+		}
+		$this->add_control(
+			'card_image_size',
+			[
+				'label' => 'Bildgröße',
+				'type' => Controls_Manager::SELECT,
+				'default' => "medium_large",
+				'options' => $sizes
+			]
+		);
+
+		$this->add_control(
+      'card_image_css_size',
+      [
+        'label' => 'Bildhöhe',
+				'type' => Controls_Manager::TEXT,
+        'default' => '15vw',
+				'selectors' => [
+					'{{WRAPPER}} .akzent-point-of-interest-card .card-img-top' => 'height: {{VALUE}}',
+				],
+      ]
+    );
+
+		$this->add_control(
+      'card_image_css_object_fit',
+      [
+        'label' => 'Object-Fit',
+				'type' => Controls_Manager::SELECT,
+        'default' => 'cover',
+				'options' => [
+					'contain' => 'contain',
+					'cover' => 'cover',
+					'fill' => 'fill',
+					'scale-down' => 'scale-down',
+					'none' => 'none',
+					'unset' => 'unset'
+				],
+				'selectors' => [
+					'{{WRAPPER}} .akzent-point-of-interest-card .card-img-top' => 'object-fit: {{VALUE}}',
+				],
+      ]
+    );
 
 		$this->add_control(
 			'card_grid_columns_tablet',
@@ -176,6 +226,55 @@ abstract class WidgetBase extends \Elementor\Widget_Base {
 				'selectors' => [
 					'{{WRAPPER}} .akzent-point-of-interest-rating-stars' => 'color: {{VALUE}}',
 				],
+      ]
+    );
+
+    $this->end_controls_section();
+
+    $this->start_controls_section(
+			'section_footer',
+			[
+				'label' => 'Footer',
+				'tab' => Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		$this->add_control(
+      'showr_footer',
+      [
+        'label' => 'Verstecken',
+        'type' => Controls_Manager::SWITCHER,
+				'label_on' => 'Ja',
+				'label_off' => 'Nein',
+        'default' => 'block',
+				'return_value' => 'none',
+        'selectors' => [
+          '{{WRAPPER}} .akzent-point-of-interest-footer' => 'display: {{VALUE}}',
+        ],
+      ]
+    );
+
+    $this->add_control(
+      'background_color_footer',
+      [
+        'label' => 'Hintergrund',
+        'type' => Controls_Manager::COLOR,
+        'default' => '#4b68c9',
+        'selectors' => [
+          '{{WRAPPER}} .akzent-point-of-interest-footer' => 'background: {{VALUE}}',
+        ],
+      ]
+    );
+
+    $this->add_control(
+      'text_color_footer',
+      [
+        'label' => 'Text',
+        'type' => Controls_Manager::COLOR,
+        'default' => '#FFF',
+        'selectors' => [
+          '{{WRAPPER}} .akzent-point-of-interest-footer' => 'color: {{VALUE}}',
+        ],
       ]
     );
 

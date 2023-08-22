@@ -18,45 +18,8 @@ class CardGrid extends WidgetBase {
 
   public function inject_custom_controls($element, $args ) {
 
-    $element->start_controls_section(
-			'section_footer',
-			[
-				'label' => 'Footer',
-				'tab' => Controls_Manager::TAB_CONTENT,
-			]
-		);
-
-    $element->add_control(
-      'background_color_footer',
-      [
-        'label' => 'Hintergrund',
-        'type' => Controls_Manager::COLOR,
-        'default' => '#4b68c9',
-        'selectors' => [
-          '{{WRAPPER}} .akzent-point-of-interest-footer' => 'background: {{VALUE}}',
-        ],
-      ]
-    );
-
-    $element->add_control(
-      'text_color_footer',
-      [
-        'label' => 'Text',
-        'type' => Controls_Manager::COLOR,
-        'default' => '#FFF',
-        'selectors' => [
-          '{{WRAPPER}} .akzent-point-of-interest-footer' => 'color: {{VALUE}}',
-        ],
-      ]
-    );
-
-    $element->end_controls_section();
-
   }
 
-  public function get_style_depends() {
-    return [ 'akzent_base_layout_style' ];
-   }
 	public function get_name() {
     return 'akzent-points-of-interest-card-grid';
   }
@@ -90,7 +53,7 @@ class CardGrid extends WidgetBase {
 		<div id="AkzentCardGrid" class="row row-cols-1 row-cols-md-<?php echo $settings['card_grid_columns_tablet']?> row-cols-lg-<?php echo $settings['card_grid_columns_desktop']?> g-4">
       <?php foreach ( $this->points_of_interest as $point ) : ?>
         <div class="col">
-          <?php $this->render->card_vertical($point); ?>
+          <?php $this->render->card_vertical($point, $settings['card_image_size']); ?>
         </div>
       <?php endforeach; ?>
     </div>

@@ -44,7 +44,7 @@ class Plugin
 
   public function register_widget_styles_and_scripts() {
     wp_register_style('akzent_base_layout_style', plugins_url('assets/lib/bootstrap/bootstrap5.min.css', AKZENT_POINTS_OF_INTEREST_FILE) );
-    wp_register_style('akzent_base_layout_style', plugins_url('assets/css/layout.css', AKZENT_POINTS_OF_INTEREST_FILE) );
+    wp_register_style('akzent_base_card_style', plugins_url('assets/css/card.css', AKZENT_POINTS_OF_INTEREST_FILE) );
     wp_register_style('akzent_post_list_widget_style', plugins_url('assets/css/post_list.css', AKZENT_POINTS_OF_INTEREST_FILE) );
     wp_register_style('akzent_slider_widget_style', plugins_url('assets/lib/swiper/css/swiper.min.css', AKZENT_POINTS_OF_INTEREST_FILE) );
     wp_register_script('akzent_slider_widget_swiper_script', plugins_url('assets/lib/swiper/swiper.min.js', AKZENT_POINTS_OF_INTEREST_FILE) );
