@@ -47,7 +47,6 @@ class CardGrid extends WidgetBase {
   protected function render() {
     $settings = $this->get_settings_for_display();
     $this->get_points_of_interest_for_settings($settings);
-    $a = $this->points_of_interest;
 
 		?>
 		<div id="AkzentCardGrid" class="row row-cols-1 row-cols-md-<?php echo $settings['card_grid_columns_tablet']?> row-cols-lg-<?php echo $settings['card_grid_columns_desktop']?> g-4">

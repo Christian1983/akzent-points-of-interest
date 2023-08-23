@@ -14,7 +14,7 @@ abstract class WidgetBase extends \Elementor\Widget_Base {
 	public $render;
 
 	public function get_style_depends() {
-    return [ 'akzent_base_layout_style', 'akzent_base_card_style' ];
+    return [ 'akzent_bootstrap_style', 'akzent_main_style' ];
    }
 
   protected function register_controls() {
@@ -133,7 +133,7 @@ abstract class WidgetBase extends \Elementor\Widget_Base {
 			'card_grid_columns_desktop',
 			[
 				'label' => 'Spalten desktop',
-				'type' => \Elementor\Controls_Manager::SELECT,
+				'type' => Controls_Manager::SELECT,
 				'default' => 3,
 				'options' => [
           '1' => 1,
