@@ -24,12 +24,12 @@ abstract class BaseControl {
 	 * @param array    $selector    The css class selector
    * @param array    $defaults    The defaults for various values, eg.: defaults['title_color' => '#FFF']
 	 */
-  function __construct($name, $element, $selector=null, $defaults=[]) {
-    $this->name         = $name;
-    $this->element      = $element;
-    $this->selector     = $selector;
-    $this->defaults     = array_merge($this->defaults, $defaults);
-    $this->section_name = 'section_' . $this->element->get_name();
+  function __construct($args) {
+    $this->name         = $args['name'];
+    $this->element      = $args['element'];
+    $this->selector     = $args['selector'];
+    //$this->defaults     = array_merge($this->defaults, $args['defaults']);
+    //$this->section_name = 'section_' . $this->element->get_name();
     $this->create();
   }
 

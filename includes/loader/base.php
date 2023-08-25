@@ -47,11 +47,11 @@ class BaseLoader {
     );
   }
 
-  private function register_styles() {
+  public function register_styles() {
     wp_register_style('akzent_main_style', plugins_url('assets/css/main.css', AKZENT_POINTS_OF_INTEREST_FILE) );
   }
 
-  private function register_scripts() {
+  public function register_scripts() {
   }
 
   public function valid() {

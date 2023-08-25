@@ -23,10 +23,10 @@ class Plugin
 
 
   public function init() {
-    if ($this->init_base_loader()) {
-      if ($this->is_compatible()) {
-        $this->init_elementor_loader();
-      }
+    $this->init_base_loader();
+
+    if ($this->is_compatible()) {
+      $this->init_elementor_loader();
     }
 
     $this->settings = new Settings();

@@ -37,11 +37,11 @@ class CardBaseControl extends BaseControl {
       ]
     );
 
-		new TextControl('Title', $this, 'akzent-point-of-interest-title', []);
-		new TextControl('Adresse', $this, 'akzent-point-of-interest-address-line', []);
-		new TextControl('Inhalt', $this, 'akzent-point-of-interest-content', []);
-		new TextControl('Entfernung', $this, 'akzent-point-of-interest-distance', []);
-		new TextControl('Rating', $this, 'akzent-point-of-interest-rating-stars', []);
+		//new TextControl('Title', $this, 'akzent-point-of-interest-title', []);
+		//new TextControl('Adresse', $this, 'akzent-point-of-interest-address-line', []);
+		//new TextControl('Inhalt', $this, 'akzent-point-of-interest-content', []);
+		//new TextControl('Entfernung', $this, 'akzent-point-of-interest-distance', []);
+		//new TextControl('Rating', $this, 'akzent-point-of-interest-rating-stars', []);
   }
 
 

@@ -16,7 +16,7 @@ class Slider extends WidgetBase {
 	 }
 
 	 public function register_controls() {
-		$controls = new SliderControl('Slider', $this);
+		$controls = new SliderControl(array('name' => 'Slider', 'element' => $this));
 	 }
 
 	public function get_name() {

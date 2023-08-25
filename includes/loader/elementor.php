@@ -16,13 +16,6 @@ class ElementorLoader {
   private function load_files() {
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/render.php';
 
-    // widgets
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/base.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/list.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/slider.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/card_grid.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/controls/card_grid.php';
-
     // controls
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/controls/base.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/controls/card_base.php';
@@ -51,9 +44,13 @@ class ElementorLoader {
   }
 
   public function register_widgets( $widgets_manager ) {
-    $widgets_manager->register(new Widgets\PostList);
-    $widgets_manager->register(new Widgets\CardGrid);
-    $widgets_manager->register(new Widgets\Slider);
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/base.php';
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/list.php';
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/slider.php';
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/card_grid.php';
+    $widgets_manager->register(new \AkzentPointsOfInterest\Widgets\PostList);
+    $widgets_manager->register(new \AkzentPointsOfInterest\Widgets\CardGrid);
+    $widgets_manager->register(new \AkzentPointsOfInterest\Widgets\Slider);
   }
 
   public function register_scripts() {
