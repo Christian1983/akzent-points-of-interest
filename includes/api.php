@@ -22,7 +22,7 @@ class API
     if ($response['code'] == 200) {
       return json_decode($response['body']);
     }  else {
-      return false;
+      return [];
     }
   }
 

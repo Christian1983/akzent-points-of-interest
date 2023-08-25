@@ -193,6 +193,7 @@ class PointOfInterest {
       'number_of_ratings' => $obj->number_of_ratings,
       'display'  => $obj->display,
       'distance' => $obj->distance,
+      'distancew' => $obj->distance_word,
       'zipcode'  => $obj->zipcode,
       'city'     => $obj->city,
       'street'   => $obj->street

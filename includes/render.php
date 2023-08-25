@@ -37,7 +37,7 @@ class Render {
           <div>
             <div>
               <span class="akzent-point-of-interest-distance-symbol" style="margin-right: 5px"><i class="eicon-map-pin"></i></span>
-              <span class="akzent-point-of-interest-distance"><?php echo "{$point->distance} entfernt" ?></span>
+              <span class="akzent-point-of-interest-distance"><?php echo "{$point->distancew} entfernt" ?></span>
             </div>
             <div>
               <span class="akzent-point-of-interest-rating-symbol" style="margin-right: 5px"><i class="eicon-rating"></i></span>
@@ -66,18 +66,22 @@ class Render {
         <div style="position: relative; height: 100%; width: 100%;">
           <?php echo $img_html ?>
           <div class='floating-body' style='display: flex; flex-wrap: wrap; flex-direction: column; justify-content: center; align-items: center; position: absolute; top:0; left: 0; width: 100%; height: 100%'>
-            <div class="akzent-point-of-interest-title" style="font-size: 20px; text-shadow: 1px 1px black">
+            <div class="akzent-point-of-interest-title">
               <?php echo $point->post_title ?>
             </div>
-            <div class="akzent-point-of-interest-address-line" style="font-size: 12px">
+            <div class="akzent-point-of-interest-address-line">
                 <span><?php echo $point->street ?></span>
                 <span><?php echo $point->city ?></span>
                 <span><?php echo $point->zipcode ?></span>
             </div>
-            <div style="display: flex; justify-content:space-between; width: 100%; margin-top: 4rem; padding: 5px">
+            <div class="akzent-point-of-interest-content" style="margin-top: 1rem; padding: 15px">
+              <?php echo $point->post_content ?>
+            </div>
+
+            <div style="position: absolute; bottom: 0; display: flex; justify-content:space-between; width: 100%; padding: 15px">
               <div>
                 <span class="akzent-point-of-interest-distance-symbol" style="margin-right: 5px"><i class="eicon-map-pin"></i></span>
-                <span class="akzent-point-of-interest-distance"><?php echo "{$point->distance} entfernt" ?></span>
+                <span class="akzent-point-of-interest-distance"><?php echo "{$point->distancew} entfernt" ?></span>
               </div>
               <div>
                 <span class="akzent-point-of-interest-rating-symbol" style="margin-right: 5px"><i class="eicon-rating"></i></span>

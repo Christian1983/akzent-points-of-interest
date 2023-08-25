@@ -11,6 +11,8 @@ class Plugin
   public static $_instance = null;
   public $settings;
   public $api;
+  public $base_loader;
+  public $elementor_loader;
 
   const MINIMUM_ELEMENTOR_VERSION = '3.2.0';
 
@@ -20,97 +22,35 @@ class Plugin
   }
 
 
-  public function init()
-  {
-    $this->load_files();
+  public function init() {
+    if ($this->init_base_loader()) {
+      if ($this->is_compatible()) {
+        $this->init_elementor_loader();
+      }
+    }
+
     $this->settings = new Settings();
     $this->api = new API();
-    add_action('init', [$this, 'register_poi_post_type']);
-    add_action('elementor/elements/categories_registered', [$this, 'register_widgets_category']);
-    add_action('elementor/widgets/register', [$this, 'register_widgets']);
-    add_action('update_option_' . Settings::OPTIONS_BASE_NAME, [$this, 'initial_fetch_points_of_interest']);
+    //add_action('init', [$this, 'register_poi_post_type']);
+    //add_action('elementor/elements/categories_registered', [$this, 'register_widgets_category']);
+    //add_action('elementor/widgets/register', [$this, 'register_widgets']);
+    //add_action('update_option_' . Settings::OPTIONS_BASE_NAME, [$this, 'initial_fetch_points_of_interest']);
     //add_action('wp_enqueue_style', [$this, 'register_akzent_styles']);
-    add_action('wp_enqueue_scripts', [$this, 'register_akzent_scripts']);
+    //add_action('wp_enqueue_scripts', [$this, 'register_akzent_scripts']);
   }
 
-  private function load_files()
-  {
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/settings.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/api.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/render.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/helper/string.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest_image.php';
+  private function init_base_loader() {
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/loader/base.php';
+    $this->base_loader = new Loader\BaseLoader();
+    return $this->base_loader->valid();
   }
 
-  public function register_akzent_styles() {
-    wp_register_style('akzent_bootstrap_style', plugins_url('assets/lib/bootstrap/bootstrap5.min.css', AKZENT_POINTS_OF_INTEREST_FILE) );
-    wp_register_style('akzent_post_list_widget_style', plugins_url('assets/css/post_list.css', AKZENT_POINTS_OF_INTEREST_FILE) );
-    wp_register_style('akzent_main_style', plugins_url('assets/css/main.css', AKZENT_POINTS_OF_INTEREST_FILE) );
-    wp_register_style('akzent_slider_widget_style', plugins_url('assets/lib/swiper/css/swiper.min.css', AKZENT_POINTS_OF_INTEREST_FILE) );
+  private function init_elementor_loader() {
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/loader/elementor.php';
+    $this->elementor_loader = new Loader\ElementorLoader();
+    return true;
   }
 
-  public function register_akzent_scripts() {
-    // we cant use wp_enqueue_style as intended, hthe hook always fires after wp_enqueue_scripts.
-    // but then swiper does not work
-    $this->register_akzent_styles();
-    wp_register_script('akzent_slider_widget_swiper_script', plugins_url('assets/lib/swiper/swiper.min.js', AKZENT_POINTS_OF_INTEREST_FILE) );
-    wp_register_script('akzent_slider_widget_initialization_script', plugins_url('assets/js/slider.js', AKZENT_POINTS_OF_INTEREST_FILE));
-  }
-
-  public function register_poi_post_type()
-  {
-    $result = register_post_type(
-      'point_of_interest',
-      array(
-        'labels' => array(
-          'name' => __('Reiseinspirationen'),
-          'singular_name' => __('Reiseinspiration')
-        ),
-        'capabilities' => array(
-          'read_points_of_interest' => true,
-          'delete_points_of_interest' => true,
-          'create_points_of_interest' => false,
-          'edit_points_of_interest' => false,
-        ),
-        'has_archive' => true,
-        'public' => true,
-        'show_in_rest' => true, // nötig damit gutenberg die pois 'sehen' kann
-        'show_ui' => true,
-        'show_in_menu' => true,
-        'menu_position' => 4,
-        'menu_icon' => AKZENT_POINTS_OF_INTEREST_DEFAULT_ICON,
-        'rewrite' => array('slug' => 'reiseinspirationen'),
-        'supports' => array('title', 'editor', 'description', 'author', 'thumbnail', 'custom-fields')
-      )
-    );
-  }
-
-  public function register_widgets_category($elements_manager) {
-    $elements_manager->add_category(
-      'akzent-points-of-interest',
-      [
-        'title' => AKZENT_POINTS_OF_INTEREST_PLUGIN_NAME,
-        'icon' => AKZENT_POINTS_OF_INTEREST_DEFAULT_ICON,
-      ]
-    );
-  }
-
-
-  public function register_widgets($widgets_manager)
-  {
-    if ($this->is_compatible()) {
-      require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/base.php';
-      require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/list.php';
-      require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/slider.php';
-      require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/widgets/card_grid.php';
-      $widgets_manager->register(new Widgets\PostList);
-      $widgets_manager->register(new Widgets\CardGrid);
-      $widgets_manager->register(new Widgets\Slider);
-    }
-  }
-
-  // initial create of poi model
   public function initial_fetch_points_of_interest()
   {
     $cpt_objects = $this->api->get_all();

@@ -1,7 +1,7 @@
 .swiper-button-next, .swiper-button-prev {
   background-image: unset !important;
-  font-size: 3rem;
   color: white;
+  font-size: 3rem;
   text-shadow: 1px 1px black;
 }
 
