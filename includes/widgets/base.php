@@ -18,7 +18,7 @@ abstract class WidgetBase extends \Elementor\Widget_Base {
 
 	public function get_points_of_interest_for_settings($settings) {
 		$this->render = new Render();
-		$this->points_of_interest = PointOfInterest::filter($settings['akzent_sort_field'], $settings['akzent_sort_direction']);
+		$this->points_of_interest = PointOfInterest::filter($settings['sort_field'], $settings['sort_direction']);
 	}
 
 
