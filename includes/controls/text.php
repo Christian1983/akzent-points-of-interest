@@ -83,14 +83,15 @@ class TextControl extends BaseControl {
 			]
 		);
 
-    $control_id  = to_snake_case($this->name) . '_wrapper_padding';
-    $default     = isset($this->defaults[$control_id]) ? $this->defaults[$control_id] : '';
+    $control_id  = to_snake_case($this->name) . '_padding';
+    $default     = isset($this->defaults[$control_id]) ? $this->defaults[$control_id] : [];
 		$this->element->add_responsive_control(
 			$control_id,
 			[
 				'label' => 'Padding',
 				'type' => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em', 'rem' ],
+        'default' => $default,
 				'selectors' => [
 					"{{WRAPPER}} {$this->selector}" => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],

@@ -36,10 +36,15 @@
 .akzent-point-of-interest-image-card-footer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: absolute;
   bottom: 15px;
   left: 0;
   width: 100%;
+}
+
+.akzent-point-of-interest-image-card .akzent-point-of-interest-rating small {
+  font-size: unset !important
 }
 
 .swiper-button-next, .swiper-button-prev {

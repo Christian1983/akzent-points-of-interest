@@ -26,9 +26,9 @@ abstract class BaseControl {
 	 * @param array    $selector    The css class selector
    * @param array    $defaults    The defaults for various values, eg.: defaults['title_color' => '#FFF']
 	 */
-  function __construct($args) {
-    $a = \Elementor\Core\Kits\Documents\Tabs\Global_Colors::COLOR_PRIMARY;
-    $this->name         = $args['name'];
+  function __construct($args = []) {
+    $this->name         = isset($args['name']) ? $args['name'] : get_called_class();
+    $this->section_name = "{$this->name}_section";
     $this->element      = $args['element'];
     $this->selector     = isset($args['selector']) ? ".{$args['selector']}" : '';
     $this->wrapper      = "{$this->selector}-wrapper";

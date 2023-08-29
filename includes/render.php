@@ -139,7 +139,7 @@ class Render
     $this->post_id = $point->ID;
     $this->thumb_id = get_post_thumbnail_id($point->ID);
 
-    add_filter('post_thumbnail_html', [$this, 'remove_thumbnail_dimensions'], 10, 3);
+   // add_filter('post_thumbnail_html', [$this, 'remove_thumbnail_dimensions'], 10, 3);
     $img_html = get_the_post_thumbnail($this->post_id, $image_size, array('class' => 'card-img-top'));
 
     ?>
@@ -166,11 +166,11 @@ class Render
 
         <div class="akzent-point-of-interest-image-card-footer">
 
-          <div class="akzent-point-of-interest-distance-wrapper">
-            <span class="akzent-point-of-interest-distance"><?php echo $point->distancew ?></span>
+          <div class="akzent-point-of-interest-distance-wrapper akzent-w50">
+            <span class="akzent-point-of-interest-distance"><?php echo $point->distancew ?> entfernt</span>
           </div>
 
-          <div class="akzent-point-of-interest-rating-wrapper">
+          <div class="akzent-point-of-interest-rating-wrapper akzent-w50">
             <span class="akzent-point-of-interest-rating"><?php echo $this->star_rating_render($point->rating) ?></span>
           </div>
 

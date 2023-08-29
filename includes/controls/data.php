@@ -3,18 +3,20 @@
 namespace AkzentPointsOfInterest\Controls;
 defined('ABSPATH') || exit;
 
+use function AkzentPointsOfInterest\Helper\to_snake_case;
 use Elementor\Controls_Manager;
 class DataControl extends BaseControl {
 
   public function create() {
 		$this->element->start_controls_section(
-			'section_data',
+			$this->section_name,
 			[
 				'label' => 'Daten',
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
 
+		$control_id  = to_snake_case($this->name) . '_sort';
 		$this->element->add_control(
 			'sort_field',
 			[
@@ -30,6 +32,7 @@ class DataControl extends BaseControl {
 			]
 		);
 
+		$control_id  = to_snake_case($this->name) . '_sort_direction';
 		// wird an $orderDesc (boolean) übergeben
 		$this->element->add_control(
 			'sort_direction',

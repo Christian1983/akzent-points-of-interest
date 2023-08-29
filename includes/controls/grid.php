@@ -3,9 +3,12 @@
 namespace AkzentPointsOfInterest\Controls;
 defined('ABSPATH') || exit;
 
-class SliderBaseControl extends BaseControl {
+
+class GridControl extends BaseControl
+{
+
   public function create() {
-    new DataControl(array('name' => 'Slider', 'element' => $this->element));
+    new DataControl(['element' => $this->element]);
 		$this->element->start_controls_section(
 			'image_section',
 			[
@@ -25,6 +28,7 @@ class SliderBaseControl extends BaseControl {
 		);
 
     $this->element->end_controls_section();
+    new CardControl(['element' => $this->element, 'size' => 'small']);
   }
 
 }
