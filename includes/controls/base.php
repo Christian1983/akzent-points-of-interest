@@ -25,11 +25,11 @@ abstract class BaseControl {
    * @param array    $defaults    The defaults for various values, eg.: defaults['title_color' => '#FFF']
 	 */
   function __construct($args) {
+    $a = \Elementor\Core\Kits\Documents\Tabs\Global_Colors::COLOR_PRIMARY;
     $this->name         = $args['name'];
     $this->element      = $args['element'];
-    $this->selector     = $args['selector'];
-    //$this->defaults     = array_merge($this->defaults, $args['defaults']);
-    //$this->section_name = 'section_' . $this->element->get_name();
+    $this->selector     = isset($args['selector']) ? $args['selector'] : null;
+    $this->defaults     = array_merge($this->defaults, isset($args['defaults']) ? $args['defaults'] : []);
     $this->create();
   }
 

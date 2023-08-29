@@ -17,7 +17,7 @@ class TextControl extends BaseControl {
 			$section_id,
 			[
 				'label' => $this->name,
-				'tab' => Controls_Manager::TAB_CONTENT,
+				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -39,13 +39,14 @@ class TextControl extends BaseControl {
     );
 
     $control_id  = to_snake_case($this->name) . '_text_color';
+    $default     = isset($this->defaults[$control_id]) ? $this->defaults[$control_id] : '#FFF';
     $this->element->add_control(
       $control_id,
       [
         'label' => 'Farbe',
         'seperator' => 'after',
 				'type' => Controls_Manager::COLOR,
-        'default' => '#FFF',
+        'default' => $default,
         'selectors' => [
           "{{WRAPPER}} .{$this->selector}" => 'color: {{VALUE}}',
         ],
@@ -53,21 +54,25 @@ class TextControl extends BaseControl {
     );
 
     $control_id  = to_snake_case($this->name) . '_text_shadow';
+    $default     = isset($this->defaults[$control_id]) ? $this->defaults[$control_id] : [];
 		$this->element->add_group_control(
 			\Elementor\Group_Control_Text_Shadow::get_type(),
 			[
 				'name' => $control_id,
 				'selector' => "{{WRAPPER}} .{$this->selector}",
+        'fields_options' => $default
 			]
 		);
 
 
-    $control_id  = to_snake_case($this->name) . '_content_typography';
+    $control_id  = to_snake_case($this->name) . '_typography';
+    $default     = isset($this->defaults[$control_id]) ? $this->defaults[$control_id] : [];
     $this->element->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
 				'name' => $control_id,
 				'selector' => ".{$this->selector}",
+        'fields_options' => $default
 			]
 		);
 

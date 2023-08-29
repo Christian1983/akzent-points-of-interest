@@ -53,7 +53,7 @@ class Slider extends WidgetBase {
 				<div class="swiper-wrapper">
 					<?php foreach($this->points_of_interest as $point ) : ?>
 						<div class="swiper-slide">
-							<?php $this->render->card_image($point, $settings['card_image_size']); ?>
+							<?php $this->render->card_image($point, $settings['thumbnail_size']); ?>
 						</div>
 					<?php endforeach; ?>
 				</div>

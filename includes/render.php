@@ -52,6 +52,47 @@ class Render {
     <?php
   }
 
+  public function card_horizontal($point, $image_size='thumbnail') {
+    if (!$point) { return; }
+
+    $this->post_id  = $point->ID;
+    $this->thumb_id = get_post_thumbnail_id($point->ID);
+
+    add_filter( 'post_thumbnail_html', [ $this, 'remove_thumbnail_dimensions' ], 10, 3 );
+    $img_html = get_the_post_thumbnail($this->post_id, $image_size, array('class' => 'card-img-top'));
+
+    ?>
+      <div class="card akzent-point-of-interest-card">
+        <?php echo $img_html ?>
+        <div class="card-body">
+          <div class="card-title akzent-point-of-interest-title" style="margin-bottom: 2rem">
+            <div><?php echo $point->post_title ?></div>
+            <div class="akzent-point-of-interest-address-line" style="font-size: 12px">
+              <span><?php echo $point->street ?></span>
+              <span><?php echo $point->city ?></span>
+              <span><?php echo $point->zipcode ?></span>
+            </div>
+          </div>
+          <div>
+            <div>
+              <span class="akzent-point-of-interest-distance-symbol float-left" style="margin-right: 5px"><i class="eicon-map-pin"></i></span>
+              <span class="akzent-point-of-interest-distance"><?php echo "{$point->distancew} entfernt" ?></span>
+            </div>
+            <div>
+              <span class="akzent-point-of-interest-rating-symbol float-left" style="margin-right: 5px"><i class="eicon-rating"></i></span>
+              <span class="akzent-point-of-interest-rating-stars"><?php echo $this->star_rating_render($point->rating) ?></span>
+            </div>
+          </div>
+        </div>
+        <div class="akzent-point-of-interest-footer card-footer" style="text-align:center">
+          <small style="font-size: 1rem; color: white">Details</small>
+        </div>
+      </div>
+    <?php
+  }
+
+
+
   public function card_image($point, $image_size="large") {
     if (!$point) { return; }
 
