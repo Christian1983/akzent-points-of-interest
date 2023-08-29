@@ -1,5 +1,45 @@
+.akzent-w100 { width: 100%; }
+.akzent-w50 { width: 50%; }
+.akzent-w25 { width: 25%; }
+
+.akzent-point-of-interest-image-card {
+  position: relative;
+}
+
+.akzent-point-of-interest-image-card-inner {
+  position: absolute;
+  top:0;
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
 .akzent-point-of-interest-image-card img {
   width: 100% !important;
+  box-shadow: 4px 4px 24px -8px rgba(0,0,0,0.75)
+}
+.akzent-point-of-interest-image-card .akzent-point-of-interest-title {
+  width: 100%;
+}
+
+.akzent-point-of-interest-image-card .akzent-point-of-interest-address-line {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.akzent-point-of-interest-image-card-footer {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  width: 100%;
 }
 
 .swiper-button-next, .swiper-button-prev {
@@ -7,6 +47,12 @@
   color: white;
   font-size: 3rem;
   text-shadow: 1px 1px black;
+}
+
+@media only screen and (max-width: 480px)  {
+  .swiper-button-next, .swiper-button-prev {
+    display: none;
+  }
 }
 
 .swiper-button-next::after, .swiper-button-prev::after {

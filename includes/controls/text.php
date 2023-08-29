@@ -22,21 +22,80 @@ class TextControl extends BaseControl {
 		);
 
     $control_id  = to_snake_case($this->name) . '_hide';
-    $this->element->add_control(
+    $default     = isset($this->defaults[$control_id]) ? $this->defaults[$control_id] : 'block';
+    $this->element->add_responsive_control(
       $control_id,
       [
-        'label' => 'Verstecken',
+        'label' => 'Hide',
         'seperator' => 'after',
         'type' => Controls_Manager::SWITCHER,
-				'label_on' => 'Ja',
-				'label_off' => 'Nein',
-        'default' => 'block',
+				'label_on' => 'Yes',
+				'label_off' => 'No',
+        'default' => $default,
 				'return_value' => 'none',
         'selectors' => [
-          "{{WRAPPER}} .{$this->selector}" => 'display: {{VALUE}}',
+          "{{WRAPPER}} {$this->selector}" => 'display: {{VALUE}}',
         ],
       ]
     );
+
+    $control_id  = to_snake_case($this->name) . '_text_align';
+    $default     = isset($this->defaults[$control_id]) ? $this->defaults[$control_id] : 'center';
+		$this->element->add_control(
+			$control_id,
+			[
+				'label' => 'Alignment',
+				'type' => \Elementor\Controls_Manager::CHOOSE,
+				'options' => [
+					'left' => [
+						'title' => 'Left',
+						'icon' => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => 'Center',
+						'icon' => 'eicon-text-align-center',
+					],
+					'right' => [
+						'title' => 'Right',
+						'icon' => 'eicon-text-align-right',
+					],
+				],
+				'default' => $default,
+				'toggle' => true,
+				'selectors' => [
+					"{{WRAPPER}} {$this->selector}" => 'text-align: {{VALUE}};',
+				],
+			]
+		);
+
+    $control_id  = to_snake_case($this->name) . '_margin';
+    $default     = isset($this->defaults[$control_id]) ? $this->defaults[$control_id] : [];
+		$this->element->add_responsive_control(
+			$control_id,
+			[
+				'label' => 'Margin',
+				'type' => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em', 'rem' ],
+        'default' => $default,
+				'selectors' => [
+					"{{WRAPPER}} {$this->selector}" => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+    $control_id  = to_snake_case($this->name) . '_wrapper_padding';
+    $default     = isset($this->defaults[$control_id]) ? $this->defaults[$control_id] : '';
+		$this->element->add_responsive_control(
+			$control_id,
+			[
+				'label' => 'Padding',
+				'type' => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em', 'rem' ],
+				'selectors' => [
+					"{{WRAPPER}} {$this->selector}" => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
 
     $control_id  = to_snake_case($this->name) . '_text_color';
     $default     = isset($this->defaults[$control_id]) ? $this->defaults[$control_id] : '#FFF';
@@ -48,7 +107,7 @@ class TextControl extends BaseControl {
 				'type' => Controls_Manager::COLOR,
         'default' => $default,
         'selectors' => [
-          "{{WRAPPER}} .{$this->selector}" => 'color: {{VALUE}}',
+          "{{WRAPPER}} {$this->selector}" => 'color: {{VALUE}}',
         ],
       ]
     );
@@ -59,7 +118,7 @@ class TextControl extends BaseControl {
 			\Elementor\Group_Control_Text_Shadow::get_type(),
 			[
 				'name' => $control_id,
-				'selector' => "{{WRAPPER}} .{$this->selector}",
+				'selector' => "{{WRAPPER}} {$this->selector}",
         'fields_options' => $default
 			]
 		);
@@ -71,7 +130,7 @@ class TextControl extends BaseControl {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => $control_id,
-				'selector' => ".{$this->selector}",
+				'selector' => "{{WRAPPER}} {$this->selector}",
         'fields_options' => $default
 			]
 		);

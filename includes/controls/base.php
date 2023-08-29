@@ -11,6 +11,8 @@ abstract class BaseControl {
   public $name;
   public $element;
   public $selector;
+  public $wrapper;
+
   public $defaults = [];
   public $section_name;
 
@@ -28,7 +30,8 @@ abstract class BaseControl {
     $a = \Elementor\Core\Kits\Documents\Tabs\Global_Colors::COLOR_PRIMARY;
     $this->name         = $args['name'];
     $this->element      = $args['element'];
-    $this->selector     = isset($args['selector']) ? $args['selector'] : null;
+    $this->selector     = isset($args['selector']) ? ".{$args['selector']}" : '';
+    $this->wrapper      = "{$this->selector}-wrapper";
     $this->defaults     = array_merge($this->defaults, isset($args['defaults']) ? $args['defaults'] : []);
     $this->create();
   }
