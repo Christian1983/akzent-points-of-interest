@@ -22,7 +22,7 @@ class TextControl extends BaseControl {
 		);
 
     $control_id  = to_snake_case($this->name) . '_hide';
-    $default     = isset($this->defaults[$control_id]) ? $this->defaults[$control_id] : 'block';
+    $default     = isset($this->defaults[$control_id]) ? $this->defaults[$control_id] : ['desktop' => 'block', 'tablet' => 'block', 'mobile' => 'block'];
     $this->element->add_responsive_control(
       $control_id,
       [
@@ -31,8 +31,10 @@ class TextControl extends BaseControl {
         'type' => Controls_Manager::SWITCHER,
 				'label_on' => 'Yes',
 				'label_off' => 'No',
-        'default' => $default,
 				'return_value' => 'none',
+        'desktop_default' => $default['desktop'],
+				'tablet_default' => $default['tablet'],
+				'mobile_default' => $default['mobile'],
         'selectors' => [
           "{{WRAPPER}} {$this->selector}" => 'display: {{VALUE}}',
         ],
@@ -120,7 +122,9 @@ class TextControl extends BaseControl {
 			[
 				'name' => $control_id,
 				'selector' => "{{WRAPPER}} {$this->selector}",
-        'fields_options' => $default
+        'fields_options' => $default,
+				'defaults' => $default,
+				'default' => $default
 			]
 		);
 

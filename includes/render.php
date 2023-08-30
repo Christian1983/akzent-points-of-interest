@@ -130,7 +130,7 @@ class Render
 
 
 
-  public function card_image($point, $image_size = "large")
+  public function card_image($point, $image_size = "large", $image_max_height = null)
   {
     if (!$point) {
       return;
@@ -144,19 +144,21 @@ class Render
 
     ?>
     <div class="akzent-point-of-interest-image-card">
-      <?php echo $img_html ?>
+      <div class="akzent-point-of-interest-image-wrapper" style="overflow: hidden; height: <?php echo strval($image_max_height); ?>px">
+        <?php echo $img_html ?>
+      </div>
       <div class="akzent-point-of-interest-image-card-inner">
         <div class="akzent-point-of-interest-title-wrapper akzent-w100">
-          <div class="akzent-point-of-interest-title card-title">
+          <div class="akzent-point-of-interest-title">
             <?php echo $point->post_title ?>
           </div>
         </div>
 
         <div class="akzent-point-of-interest-address-wrapper akzent-w100">
           <div class="akzent-point-of-interest-address-line">
-            <span><?php echo $point->street ?></span>
-            <span><?php echo $point->city ?></span>
-            <span><?php echo $point->zipcode ?></span>
+            <span> | <?php echo $point->street ?> </span>
+            <span> | <?php echo $point->zipcode ?> </span>
+            <span> | <?php echo $point->city ?> </span>
           </div>
         </div>
 
@@ -166,11 +168,11 @@ class Render
 
         <div class="akzent-point-of-interest-image-card-footer">
 
-          <div class="akzent-point-of-interest-distance-wrapper akzent-w50">
+          <div class="akzent-point-of-interest-distance-wrapper">
             <span class="akzent-point-of-interest-distance"><?php echo $point->distancew ?> entfernt</span>
           </div>
 
-          <div class="akzent-point-of-interest-rating-wrapper akzent-w50">
+          <div class="akzent-point-of-interest-rating-wrapper">
             <span class="akzent-point-of-interest-rating"><?php echo $this->star_rating_render($point->rating) ?></span>
           </div>
 
