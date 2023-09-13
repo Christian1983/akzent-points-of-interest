@@ -7,6 +7,7 @@ class BaseLoader {
 
   private $post_type_registered;
   function __construct() {
+    $a = wp_get_theme()->get_stylesheet();
     $this->load_files();
     add_action('wp_enqueue_style', [$this, 'register_styles']);
     add_action('wp_enqueue_scripts', [$this, 'register_scripts']);
@@ -22,8 +23,9 @@ class BaseLoader {
   }
 
   public function register_post_type() {
+
     $this->post_type_registered = register_post_type(
-      'a_points_of_interest',
+      'points_of_interest',
       array(
         'labels' => array(
           'name' => __('Reiseinspirationen'),
@@ -32,14 +34,15 @@ class BaseLoader {
         'capabilities' => array(
           'read_points_of_interest' => true,
           'delete_points_of_interest' => true,
-          'create_points_of_interest' => false,
-          'edit_points_of_interest' => false,
+          'create_points_of_interest' => true,
+          'edit_points_of_interest' => true,
         ),
         'has_archive' => true,
         'public' => true,
         'show_in_rest' => true, // nötig damit gutenberg die pois 'sehen' kann
         'show_ui' => true,
         'show_in_menu' => true,
+        'menu_position' => 4,
         'menu_icon' => AKZENT_POINTS_OF_INTEREST_DEFAULT_ICON,
         'rewrite' => array('slug' => 'reiseinspirationen'),
         'supports' => array('title', 'editor', 'description', 'author', 'thumbnail', 'custom-fields')
@@ -47,6 +50,10 @@ class BaseLoader {
     );
   }
 
+
+  public function add_meta_information() {
+    add_meta_box();
+  }
   public function register_styles() {
     wp_register_style('akzent_main_style', plugins_url('assets/css/main.css', AKZENT_POINTS_OF_INTEREST_FILE) );
   }

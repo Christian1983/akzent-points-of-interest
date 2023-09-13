@@ -25,7 +25,7 @@ class PointOfInterestImage {
   private function build_filename($image) {
     $filename = basename($image->url);
     $file_ext_tmp = explode('.', $filename);
-    $file_ext = explode('?', $file_ext_tmp[1]);
+    $file_ext = explode('?', end($file_ext_tmp));
     return "{$image->id}.{$file_ext[0]}";
   }
 

@@ -138,13 +138,15 @@ class Render
 
     $this->post_id = $point->ID;
     $this->thumb_id = get_post_thumbnail_id($point->ID);
+    $post_meta  = get_post_meta( $this->post_id);
+    $image_meta = get_post_meta( $this->thumb_id );
 
-   // add_filter('post_thumbnail_html', [$this, 'remove_thumbnail_dimensions'], 10, 3);
+    add_filter('post_thumbnail_html', [$this, 'remove_thumbnail_dimensions'], 10, 3);
     $img_html = get_the_post_thumbnail($this->post_id, $image_size, array('class' => 'card-img-top'));
 
     ?>
     <div class="akzent-point-of-interest-image-card">
-      <div class="akzent-point-of-interest-image-wrapper" style="overflow: hidden; height: <?php echo strval($image_max_height); ?>px">
+      <div class="akzent-point-of-interest-image-wrapper">
         <?php echo $img_html ?>
       </div>
       <div class="akzent-point-of-interest-image-card-inner">
@@ -156,26 +158,30 @@ class Render
 
         <div class="akzent-point-of-interest-address-wrapper akzent-w100">
           <div class="akzent-point-of-interest-address-line">
-            <span> | <?php echo $point->street ?> </span>
-            <span> | <?php echo $point->zipcode ?> </span>
-            <span> | <?php echo $point->city ?> </span>
+            <span> <?php echo $point->street ?> </span>
+            <span> <?php echo $point->zipcode ?> </span>
+            <span> <?php echo $point->city ?> </span>
           </div>
         </div>
 
         <div class="akzent-point-of-interest-content-wrapper akzent-w100">
-          <div class="akzent-point-of-interest-content"><p><?php echo $point->post_content ?></p></div>
+          <div class="akzent-point-of-interest-content"><p><?php $point->post_content ?></p></div>
         </div>
 
-        <div class="akzent-point-of-interest-image-card-footer">
+        <div class="akzent-point-of-interest-image-card-footer akzent-w100">
+          <div class="bottom-footer">
+            <div class="akzent-point-of-interest-distance-wrapper">
+              <span class="akzent-point-of-interest-distance"><?php echo $point->distancew ?> entfernt</span>
+            </div>
 
-          <div class="akzent-point-of-interest-distance-wrapper">
-            <span class="akzent-point-of-interest-distance"><?php echo $point->distancew ?> entfernt</span>
+            <div class="akzent-point-of-interest-rating-wrapper">
+              <span class="akzent-point-of-interest-rating"><?php echo $this->star_rating_render($point->rating) ?></span>
+            </div>
           </div>
 
-          <div class="akzent-point-of-interest-rating-wrapper">
-            <span class="akzent-point-of-interest-rating"><?php echo $this->star_rating_render($point->rating) ?></span>
+          <div class="copyright-footer-note akzent-w100">
+            <small class="akzent-w100">Copyright ©<?php echo '';?></small>
           </div>
-
         </div>
       </div>
     </div>

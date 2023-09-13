@@ -59,7 +59,7 @@ class Slider extends WidgetBase {
 
 		?>
 			<div class="swiper">
-				<div class="swiper-wrapper">
+				<div class="swiper-wrapper" style="margin-bottom: 1vh">
 					<?php foreach($this->points_of_interest as $point ) : ?>
 						<div class="swiper-slide">
 							<?php $this->render->card_image($point, $settings['thumbnail_size'], $max_height); ?>

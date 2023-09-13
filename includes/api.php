@@ -11,7 +11,7 @@ class API
   {
     //TODO: change to always get from production website!
     if (str_contains(home_url(), 'localhost')) {
-      $this->base_url = 'http://akzentde-web-1:3000/api/v2/hotels';
+      $this->base_url = 'https://www.akzent.de/api/v2/hotels';
     } else {
       $this->base_url = 'https://www.akzent.de/api/v2/hotels';
     }
