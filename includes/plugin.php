@@ -31,12 +31,12 @@ class Plugin
 
     $this->settings = new Settings();
     $this->api = new API();
-    //add_action('init', [$this, 'register_poi_post_type']);
-    //add_action('elementor/elements/categories_registered', [$this, 'register_widgets_category']);
-    //add_action('elementor/widgets/register', [$this, 'register_widgets']);
-    //add_action('update_option_' . Settings::OPTIONS_BASE_NAME, [$this, 'initial_fetch_points_of_interest']);
-    //add_action('wp_enqueue_style', [$this, 'register_akzent_styles']);
-    //add_action('wp_enqueue_scripts', [$this, 'register_akzent_scripts']);
+    //Models\PointOfInterest::destroy_all();
+    add_action('update_option_' . Settings::OPTIONS_BASE_NAME, [$this, 'initial_fetch_points_of_interest']);
+  }
+
+  public function assign_template() {
+    $a = 1;
   }
 
   private function init_base_loader() {
@@ -55,7 +55,7 @@ class Plugin
   {
     $cpt_objects = $this->api->get_all();
     foreach($cpt_objects as $object) {
-      $is_saved = Models\PointOfInterest::save($object);
+      Models\PointOfInterest::save($object);
     }
   }
 

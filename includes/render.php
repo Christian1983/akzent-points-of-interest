@@ -87,7 +87,11 @@ class Render
     ?>
     <div class="card akzent-point-of-interest-card">
       <?php echo $img_html ?>
-      <div class="card-body test">
+      <div class="card-body">
+        <div class="distance-container">
+          <span><i class="eicon-map-pin"></i></span>
+          <span></span>
+        </div>
         <div class="card-title akzent-point-of-interest-title" style="margin-bottom: 2rem">
           <div>
             <?php echo $point->post_title ?>
@@ -138,8 +142,6 @@ class Render
 
     $this->post_id = $point->ID;
     $this->thumb_id = get_post_thumbnail_id($point->ID);
-    $post_meta  = get_post_meta( $this->post_id);
-    $image_meta = get_post_meta( $this->thumb_id );
 
     add_filter('post_thumbnail_html', [$this, 'remove_thumbnail_dimensions'], 10, 3);
     $img_html = get_the_post_thumbnail($this->post_id, $image_size, array('class' => 'card-img-top'));
@@ -165,6 +167,12 @@ class Render
         </div>
 
         <div class="akzent-point-of-interest-content-wrapper akzent-w100">
+          <div class="akzent-point-of-interest-content">
+            <?php echo $point->post_content ?>
+          </div>
+        </div>
+
+        <div class="akzent-point-of-interest-content-wrapper akzent-w100">
           <div class="akzent-point-of-interest-content"><p><?php $point->post_content ?></p></div>
         </div>
 
@@ -179,9 +187,11 @@ class Render
             </div>
           </div>
 
-          <div class="copyright-footer-note akzent-w100">
-            <small class="akzent-w100">Copyright ©<?php echo '';?></small>
-          </div>
+          <?php if ($point->user != ''): ?>
+            <div class="copyright-footer-note akzent-w100">
+              <small class="akzent-w100">Copyright © <?php echo $point->user;?></small>
+            </div>
+          <?php endif; ?>
         </div>
       </div>
     </div>

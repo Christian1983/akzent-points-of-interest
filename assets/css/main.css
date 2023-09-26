@@ -58,17 +58,24 @@
 
 .swiper-button-next, .swiper-button-prev {
   background-image: unset !important;
-  color: white;
-  font-size: 3rem;
+  color: white !important;
+  font-size: 2rem;
   text-shadow: 1px 1px black;
 }
 
-@media only screen and (max-width: 480px)  {
+@media only screen and (max-width: 680px)  {
   .swiper-button-next, .swiper-button-prev {
-    display: none;
+    display: none !important;
   }
 }
 
 .swiper-button-next::after, .swiper-button-prev::after {
   content: "" !important;
+}
+
+.akzent-point-of-interest-content-wrapper {
+  background: rgba(0,0,0,0.15) !important;
+  padding: 12px;
+  max-height: 30%;
+  overflow: hidden;
 }

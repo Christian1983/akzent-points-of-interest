@@ -45,13 +45,11 @@ class CardControl extends BaseControl {
     return [
 
       // ### TITLE ###
-      'title_text_color' => AKZENT_POINTS_OF_INTEREST_PRIMARY_COLOR,
       'title_text_align' => 'center',
       'title_typography' => [
         'typography' => ['default' => 'yes'],
-        'font_weight' => ['default' => '100', 'tablet_default' => '300', 'mobile_default' => '400'],
         'font_family' => ['default' => 'Verdana'],
-        'font_size' => [ 'default' => [ 'unit' => 'vw', 'size' => 3 ], 'tablet_default' => [ 'unit' => 'px', 'size' => 32 ], 'mobile_default' => [ 'unit' => 'px', 'size' => 48 ] ],
+        'font_size' => [ 'default' => [ 'unit' => 'vw', 'size' => 2.0 ], 'tablet_default' => [ 'unit' => 'px', 'size' => 32 ], 'mobile_default' => [ 'unit' => 'px', 'size' => 28 ] ],
         'letter_spacing' => [ 'default' => ['unit' => 'rem', 'size' => 0.45]],
         'word_spacing' => [ 'default' => ['unit' => 'rem', 'size' => 0.75], 'tablet_default' => ['unit' => 'rem', 'size' => 0.25], 'mobile_default' => ['unit' => 'rem', 'size' => 0.25]]
       ],
@@ -65,9 +63,15 @@ class CardControl extends BaseControl {
         ]],
       ],
 
-      // ### ADDRESS ###
+      'title_margin' => [
+        'unit' => 'vw',
+        'top' => 0,
+        'right' => 0,
+        'bottom' => 0,
+        'left' => 0
+      ],
 
-      'address_text_color' => '#F2F2F2',
+      // ### ADDRESS ###
       'address_text_align' => 'center',
       'address_typography' => [
         'typography' => ['default' => 'yes'],
@@ -97,38 +101,36 @@ class CardControl extends BaseControl {
       //TODO: fix this, it dosent work
       'content_hide' => [
         'desktop' => 'block',
-        'tablet' => 'block',
+        'tablet' => 'none',
         'mobile' => 'none',
       ],
 
       'content_padding' => [
-        'unit' => 'px',
-        'top' => 15,
-        'right' => 15,
-        'bottom' => 15,
-        'left' => 15
+        'isLinked' => false,
+        'unit' => 'rem',
+        'top' => 0,
+        'right' => 3,
+        'bottom' => 0,
+        'left' => 3
       ],
 
-      'content_text_color' => '#F2F2F2',
       'content_typography' => [
         'typography' => ['default' => 'yes'],
         'font_weight' => ['default' => '400'],
         'font_family' => ['default' => 'Verdana'],
-        'font_size' => [ 'default' => [ 'unit' => 'vw', 'size' => 1.0 ] ],
+        'font_size' => [ 'default' => [ 'unit' => 'rem', 'size' => 0.85 ] ],
       ],
 
       'content_text_shadow' => [
         'text_shadow' => ['default' => [
           'horizontal' => 1,
           'vertical' => 1,
-          'blur' => 2,
+          'blur' => 1,
           'color' => 'rgba(0,0,0,1.0)'
         ]],
       ],
 
       // ### DISTANCE ###
-
-      'distance_text_color' => AKZENT_POINTS_OF_INTEREST_PRIMARY_COLOR,
       'distance_text_align' => 'left',
       'distance_padding' => [
         'unit' => 'px',
@@ -153,8 +155,6 @@ class CardControl extends BaseControl {
 
 
       // ### RATING ###
-
-      'rating_text_color' => AKZENT_POINTS_OF_INTEREST_PRIMARY_COLOR,
       'rating_text_align' => 'right',
       'rating_padding' => [
         'unit' => 'px',

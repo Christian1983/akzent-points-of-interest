@@ -8,7 +8,7 @@ use AkzentPointsOfInterest\Controls\SliderControl;
 class Slider extends WidgetBase {
 
 	public function get_style_depends() {
-		return [ 'akzent_slider_widget_style', 'akzent_main_style' ];
+		return [ 'akzent_slider_widget_style', 'akzent_main_style', 'bootstrap' ];
 	 }
 
 	 public function get_script_depends() {
@@ -58,7 +58,7 @@ class Slider extends WidgetBase {
 		$max_height = $this->get_max_height($settings['thumbnail_size']);
 
 		?>
-			<div class="swiper">
+			<div class="swiper akzent-swiper-container">
 				<div class="swiper-wrapper" style="margin-bottom: 1vh">
 					<?php foreach($this->points_of_interest as $point ) : ?>
 						<div class="swiper-slide">
@@ -71,8 +71,6 @@ class Slider extends WidgetBase {
 				<div class="swiper-button-prev"><i class="eicon-chevron-left"></i></div>
 				<div class="swiper-button-next"><i class="eicon-chevron-right"></i></div>
 				<div class="swiper-pagination"></div>
-				<!-- If we need scrollbar -->
-				<div class="swiper-scrollbar"></div>
 			</div>
 		<?
 	}

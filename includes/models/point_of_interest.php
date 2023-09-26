@@ -76,30 +76,29 @@ class PointOfInterest {
     return $filterObject;
   }
 
-  // merges meta and post attributes like a real model (i love rails :))
+  // merges meta and post attributes (i love rails :))
   // TODO:
   // i still need an idea to make this a real object with relations
   // i want something like:
   // point = PointOfInterest->first
   // point->images->first->url
-  // point->images->fisst-html_tag
+  // point->images->first->html_tag
 
   private static function build_model_object_from($posts) {
     $final_array = array();
     foreach($posts as $post_object) {
-      $final_object = new \stdClass();
+      $point_object = new \stdClass();
       $meta_object  = get_post_meta($post_object->ID);
 
       foreach($post_object as $key => $value) {
-        $final_object->$key = $value;
+        $point_object->$key = $value;
       }
 
-      // da meta's 1 zu n sind müssen wir den array auflösen
       foreach($meta_object as $key => $value) {
-        $final_object->$key = $value[0];
+        $point_object->$key = $value[0];
       }
 
-      $final_array[] = $final_object;
+      $final_array[] = $point_object;
     }
 
     return $final_array;
@@ -196,7 +195,9 @@ class PointOfInterest {
       'distancew' => $obj->distance_word,
       'zipcode'  => $obj->zipcode,
       'city'     => $obj->city,
-      'street'   => $obj->street
+      'street'   => $obj->street,
+      'user'     => $obj->images[0]->user,
+      'user_url' => $obj->images[0]->usr_url
     );
 
     return $post_meta_array;
