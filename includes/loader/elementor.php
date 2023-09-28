@@ -28,6 +28,9 @@ class ElementorLoader {
   public function register_styles() {
     wp_register_style('akzent_bootstrap_style', plugins_url('assets/lib/bootstrap/bootstrap5.min.css', AKZENT_POINTS_OF_INTEREST_FILE) );
     wp_register_style('akzent_main_style', plugins_url('assets/css/main.css', AKZENT_POINTS_OF_INTEREST_FILE) );
+    wp_register_style('akzent_image_card_style', plugins_url('assets/css/image_card.css', AKZENT_POINTS_OF_INTEREST_FILE));
+    wp_register_style('akzent_small_card_style', plugins_url('assets/css/small_card.css', AKZENT_POINTS_OF_INTEREST_FILE));
+    wp_register_style('akzent_slider_style', plugins_url('assets/css/slider.css', AKZENT_POINTS_OF_INTEREST_FILE));
     wp_register_style('akzent_slider_widget_style', plugins_url('assets/lib/swiper/css/swiper.min.css', AKZENT_POINTS_OF_INTEREST_FILE) );
   }
 

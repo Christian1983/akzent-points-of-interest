@@ -19,22 +19,19 @@ function waitForEle(selector) {
   });
 }
 
-waitForEle('.akzent-swiper-container').then((ele) => {
-  const swiper = new Swiper('.akzent-swiper-container', {
+waitForEle('.akzent-swiper').then((ele) => {
+  const swiper = new Swiper('.akzent-swiper', {
     speed: 1000,
     loop: true,
-    autoplay: {
-      delay: 12000
-    },
     autoHeight: false,
     slidesPerView: 1,
-    spaceBetween: 60,
+    spaceBetween: 160,
     centeredSlides: true,
     grabCursor: false,
     effect: 'coverflow',
     coverflowEffect: {
-      rotate: 30,
-      slideShadows: false,
+      rotate: 60,
+      slideShadows: true,
     },
 
     // If we need pagination

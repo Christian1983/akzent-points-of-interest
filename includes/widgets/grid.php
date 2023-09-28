@@ -7,7 +7,7 @@ use AkzentPointsOfInterest\Controls\GridControl;
 class Grid extends WidgetBase {
 
 	public function get_style_depends() {
-		return [ 'akzent_bootstrap_style', 'akzent_main_style' ];
+		return [ 'akzent_bootstrap_style', 'akzent_main_style', 'akzent_small_card_style' ];
 	 }
 
 	 public function register_controls() {
@@ -19,11 +19,11 @@ class Grid extends WidgetBase {
   }
 
 	public function get_title() {
-    return 'Gridl';
+    return 'Image Card Grid';
   }
 
 	public function get_icon() {
-    return 'eicon-grid';
+    return 'eicon-posts-grid';
   }
 
 	public function get_custom_help_url() {

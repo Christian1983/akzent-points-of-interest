@@ -152,46 +152,46 @@ class Render
         <?php echo $img_html ?>
       </div>
       <div class="akzent-point-of-interest-image-card-inner">
-        <div class="akzent-point-of-interest-title-wrapper akzent-w100">
-          <div class="akzent-point-of-interest-title">
-            <?php echo $point->post_title ?>
-          </div>
-        </div>
-
-        <div class="akzent-point-of-interest-address-wrapper akzent-w100">
-          <div class="akzent-point-of-interest-address-line">
-            <span> <?php echo $point->street ?> </span>
-            <span> <?php echo $point->zipcode ?> </span>
-            <span> <?php echo $point->city ?> </span>
-          </div>
-        </div>
-
-        <div class="akzent-point-of-interest-content-wrapper akzent-w100">
-          <div class="akzent-point-of-interest-content">
-            <?php echo $point->post_content ?>
-          </div>
-        </div>
-
-        <div class="akzent-point-of-interest-content-wrapper akzent-w100">
-          <div class="akzent-point-of-interest-content"><p><?php $point->post_content ?></p></div>
-        </div>
-
-        <div class="akzent-point-of-interest-image-card-footer akzent-w100">
-          <div class="bottom-footer">
-            <div class="akzent-point-of-interest-distance-wrapper">
-              <span class="akzent-point-of-interest-distance"><?php echo $point->distancew ?> entfernt</span>
-            </div>
-
-            <div class="akzent-point-of-interest-rating-wrapper">
-              <span class="akzent-point-of-interest-rating"><?php echo $this->star_rating_render($point->rating) ?></span>
+        <div class="akzent-point-of-interest-image-card-inner-top">
+          <div class="akzent-point-of-interest-title-wrapper akzent-w100">
+            <div class="akzent-point-of-interest-title">
+              <?php echo $point->post_title ?>
             </div>
           </div>
 
-          <?php if ($point->user != ''): ?>
-            <div class="copyright-footer-note akzent-w100">
-              <small class="akzent-w100">Copyright © <?php echo $point->user;?></small>
+          <div class="akzent-point-of-interest-address-wrapper akzent-w100">
+            <div class="akzent-point-of-interest-address-line">
+              <span> <?php echo $point->street ?> </span>
+              <span> <?php echo $point->zipcode ?> </span>
+              <span> <?php echo $point->city ?> </span>
             </div>
-          <?php endif; ?>
+          </div>
+        </div>
+
+        <div class="akzent-point-of-interest-image-card-inner-bottom">
+          <div class="akzent-point-of-interest-content-wrapper akzent-w100">
+            <div class="akzent-point-of-interest-content">
+              <?php echo $point->post_content ?>
+            </div>
+          </div>
+
+          <div class="akzent-point-of-interest-image-card-footer akzent-w100">
+            <div class="bottom-footer">
+              <div class="akzent-point-of-interest-distance-wrapper">
+                <span class="akzent-point-of-interest-distance"><?php echo $point->distancew ?> entfernt</span>
+              </div>
+
+              <div class="akzent-point-of-interest-rating-wrapper">
+                <span class="akzent-point-of-interest-rating"><?php echo $this->star_rating_render($point->rating) ?></span>
+              </div>
+            </div>
+
+            <?php if ($point->user != ''): ?>
+              <div class="copyright-footer-note akzent-w100">
+                <small class="akzent-w100">Copyright © <?php echo $point->user;?></small>
+              </div>
+            <?php endif; ?>
+          </div>
         </div>
       </div>
     </div>
