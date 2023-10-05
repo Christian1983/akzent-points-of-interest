@@ -8,7 +8,7 @@ use AkzentPointsOfInterest\Controls\SliderControl;
 class Slider extends WidgetBase {
 
 	public function get_style_depends() {
-		return [ 'akzent_slider_widget_style', 'akzent_main_style', 'akzent_image_card_style', 'akzent_slider_style' ];
+		return [ 'akzent_main_style', 'akzent_swiper_style', 'akzent_image_card_style', 'akzent_slider_style' ];
 	 }
 
 	 public function get_script_depends() {
@@ -43,8 +43,8 @@ class Slider extends WidgetBase {
 		return [ 'slider', 'carousel', 'points of interest', 'akzent', 'poi', 'post' ];
 	}
 
-	private function get_max_height($image_size) {
-		$height = 10000;
+	private function get_smallest_image_size($image_size) {
+		$height = 65536;
 		foreach($this->points_of_interest as $point) {
 			$img_data = wp_get_attachment_image_src( get_post_thumbnail_id( $point->ID ), $image_size );
 			if ($height > $img_data[2] ) { $height = $img_data[2]; }
@@ -55,26 +55,9 @@ class Slider extends WidgetBase {
 	protected function render() {
     $settings = $this->get_settings_for_display();
     $this->get_points_of_interest_for_settings($settings);
-		$max_height = $this->get_max_height($settings['thumbnail_size']);
-
-		?>
-			<div class="akzent-point-of-interest-slider">
-				<div class="swiper akzent-swiper">
-					<div class="swiper-wrapper" style="margin-bottom: 1vh">
-						<?php foreach($this->points_of_interest as $point ) : ?>
-							<div class="swiper-slide">
-								<?php $this->render->card_image($point, $settings['thumbnail_size'], $max_height); ?>
-							</div>
-						<?php endforeach; ?>
-					</div>
-
-
-					<div class="swiper-button-prev"><i class="eicon-chevron-left"></i></div>
-					<div class="swiper-button-next"><i class="eicon-chevron-right"></i></div>
-					<div class="swiper-pagination"></div>
-				</div>
-			</div>
-		<?
+		$max_height = $this->get_smallest_image_size($settings['thumbnail_size']);
+		require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/views/slider.php';
+		\AkzentPointsOfInterest\Views\ImageCardSliderView::render($this->points_of_interest, $settings['thumbnail_size'], $max_height);
 	}
 
 }

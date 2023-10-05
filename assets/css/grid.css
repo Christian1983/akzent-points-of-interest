@@ -1,0 +1,27 @@
+.akzent-point-of-interest-image-card {
+  min-height: 25vh;
+  box-shadow: 2px 2px 12px -4px rgba(0,0,0,0.75)
+}
+
+.akzent-point-of-interest-title {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 8px;
+  color:#cca772;
+  margin: 0
+}
+
+.akzent-point-of-interest-address-wrapper {
+  margin-bottom: 2vh;
+}
+
+.akzent-point-of-interest-address-line {
+  font-size: 12px;
+  font-weight: 300;
+  word-spacing: 6px;
+  margin: 0;
+}
+
+.akzent-point-of-interest-content-wrapper {
+  display: none;
+}

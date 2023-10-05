@@ -1,50 +1,36 @@
 .swiper-button-next, .swiper-button-prev {
-  background-image: unset !important;
-  color: white !important;
+  color: white;
+  background-image: unset;
   font-size: 2rem;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+.swiper-button-prev {
+  left: 20px;
+}
+
+.swiper-button-next {
+  right: 20px;
 }
 
 @media only screen and (max-width: 680px)  {
   .swiper-button-next, .swiper-button-prev {
     display: none !important;
   }
-}
 
-.swiper-button-next::after, .swiper-button-prev::after {
-  content: "" !important;
-}
-
-.akzent-point-of-interest-image-card .akzent-point-of-interest-title {
-  color: blanchedalmond;
-  width: 100%;
-  font-size: 38px;
-  font-weight: 200;
-  letter-spacing: 1.25vw;
-}
-
-
-
-.akzent-point-of-interest-content-wrapper {
-  display: none;
-  padding-left: 3vw;
-  padding-right: 3vw;
-  overflow: hidden;
-}
-
-@media only screen and (min-width: 560px)  {
   .akzent-point-of-interest-content-wrapper {
-    display: block;
+    display: none;
   }
 }
 
-
-.akzent-point-of-interest-content {
-  text-rendering: optimizeLegibility;
-  text-wrap: balance;
-  padding: 15px;
+.akzent-point-of-interest-title {
+  font-size: 32px;
+  font-weight: 200;
+  letter-spacing: 0.65vw;
+  color:#cca772 !important;
+  margin: 0
 }
 
-.akzent-point-of-interest-image-card .akzent-point-of-interest-rating small {
-  font-size: 16px;
+.akzent-point-of-interest-slider .swiper-pagination-bullets {
+  bottom: 0px;
 }

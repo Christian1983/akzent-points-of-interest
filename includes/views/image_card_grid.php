@@ -1,10 +1,10 @@
 <?php
 
 namespace AkzentPointsOfInterest\Views;
+
 defined('ABSPATH') || exit;
 
-class ImageCardSliderView {
-
+class ImageCardGridView {
   /**
    * BaseControl Class for creating Elementor widget controls based on the name
    *
@@ -16,27 +16,18 @@ class ImageCardSliderView {
    * @param string   $max_height  The max height in px for the card (Based on smallest image, since akzent ignores all my warning about image sizes)
    *                              i mean, images with height: 4800 width: 960 should not be uploaded but if i validate them im the bad guy -.-
    */
-  static function render($posts, $image_size, $max_height) {
+  static function render($posts, $image_size) {
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/views/image_card.php';
 
-    ?>
-      <div class="akzent-point-of-interest-slider">
-        <div class="swiper akzent-swiper">
-          <div class="swiper-wrapper" style="margin-bottom: 1vh">
-            <?php foreach($posts as $point ) : ?>
-              <div class="swiper-slide">
-                <?php ImageCardView::render($point, $image_size, $max_height); ?>
-              </div>
-            <?php endforeach; ?>
+		?>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g4">
+        <?php foreach($posts as $point ) : ?>
+          <div class="col" style="margin-bottom: 25px">
+            <?php ImageCardView::render($point, $image_size, 0); ?>
           </div>
-
-
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-pagination"></div>
-        </div>
+        <?php endforeach; ?>
       </div>
-    <?
+		<?
+
   }
 }
-
