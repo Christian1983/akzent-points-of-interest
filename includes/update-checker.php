@@ -29,7 +29,7 @@ class UpdateChecker
     if (false === $remote || !$this->cache_allowed) {
 
       $remote = wp_remote_get(
-        'https://github.com/Christian1983/akzent-points-of-interest/releases/download/latest/info.json',
+        'akzent.de/wp-plugin/info.json',
         array(
           'timeout' => 10,
           'headers' => array(
