@@ -14,6 +14,7 @@ class BaseLoader {
   }
 
   private function load_files() {
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/update-checker.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/settings.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/api.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/helper/string.php';
@@ -22,6 +23,7 @@ class BaseLoader {
   }
 
   public function register_point_of_interest() {
+    new \AkzentPointsOfInterest\UpdateChecker();
     register_post_type(
       'point_of_interest',
       apply_filters( 'load_template',
