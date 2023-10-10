@@ -23,8 +23,8 @@ class Plugin
 
 
   public function init() {
+    $this->init_update_checker();
     $this->init_base_loader();
-
     if ($this->is_compatible()) {
       $this->init_elementor_loader();
     }
@@ -37,6 +37,11 @@ class Plugin
 
   public function assign_template() {
     $a = 1;
+  }
+
+  private function init_update_checker() {
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/update-checker.php';
+    new UpdateChecker();
   }
 
   private function init_base_loader() {

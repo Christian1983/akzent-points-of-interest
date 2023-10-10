@@ -8,135 +8,99 @@ class UpdateChecker
   public $plugin_slug;
   public $version;
   public $cache_key;
-
   public $cache_allowed;
 
   public function __construct()
   {
-    $this->plugin_slug = AKZENT_POINTS_OF_INTEREST_PATH;
+    $this->plugin_slug = AKZENT_POINTS_OF_INTEREST_PLUGIN_SLUG;
     $this->version = AKZENT_POINTS_OF_INTEREST_VERSION;
-    $this->cache_key = 'akzent_points_of_interest_updater';
-    $this->cache_allowed = false;
-    add_filter('plugins_api', array($this, 'info'), 20, 3);
-    add_filter( 'site_transient_update_plugins', array( $this, 'update' ) );
-    //add_action( 'upgrader_process_complete', array( $this, 'purge' ), 10, 2 );
-  }
-  public function request()
-  {
-
-    $remote = get_transient($this->cache_key);
-
-    if (false === $remote || !$this->cache_allowed) {
-
-      $remote = wp_remote_get(
-        'akzent.de/wp-plugin/info.json',
-        array(
-          'timeout' => 10,
-          'headers' => array(
-            'Accept' => 'application/json'
-          )
-        )
-      );
-
-      if (
-        is_wp_error($remote)
-        || 200 !== wp_remote_retrieve_response_code($remote)
-        || empty(wp_remote_retrieve_body($remote))
-      ) {
-        return false;
-      }
-
-      set_transient($this->cache_key, $remote, DAY_IN_SECONDS);
-
-    }
-
-    $remote = json_decode(wp_remote_retrieve_body($remote));
-
-    return $remote;
-
+    $this->cache_key = 'akzent_points_of_interest_update_info_2';
+    add_filter( 'plugins_api', array($this, 'info'), 20, 3 );
+    add_filter( 'site_transient_update_plugins', array( $this, 'handle_plugin_update' ) );
   }
 
-  public function update($transient)
-  {
+  public function handle_plugin_update( $update_plugins ) {
+    if ( ! is_object( $update_plugins ) ) return $update_plugins;
+    if ( ! isset( $update_plugins->response ) || ! is_array( $update_plugins->response ) ) $update_plugins->response = array();
 
-    if (empty($transient->checked)) {
-      return $transient;
+    // prevent too many remote requests to akzent.de since wordpress fires 'site_transient_update_plugins' for every plugin installed.
+    $update_info_cached = get_transient($this->cache_key);
+    if ( $update_info_cached === false) {
+      $update_info_new = $this->build_update_info();
+      set_transient($this->cache_key, $update_info_new, DAY_IN_SECONDS);
+      $update_plugins->response[$this->plugin_slug] = $update_info_new;
+    } else {
+      $update_plugins->response[$this->plugin_slug] = $update_info_cached;
     }
 
-    $remote = $this->request();
-
-    if (
-      $remote
-      && version_compare($this->version, $remote->version, '<')
-      && version_compare($remote->requires, get_bloginfo('version'), '<=')
-      && version_compare($remote->requires_php, PHP_VERSION, '<')
-    ) {
-      $res = new \stdClass();
-      $res->slug = $this->plugin_slug;
-      $res->plugin = plugin_basename(__FILE__); // misha-update-plugin/misha-update-plugin.php
-      $res->new_version = $remote->version;
-      $res->tested = $remote->tested;
-      $res->package = $remote->download_url;
-
-      $transient->response[$res->plugin] = $res;
-
-    }
-
-    return $transient;
-
+    return $update_plugins;
   }
 
-  function info($res, $action, $args)
-  {
+  public function info($res, $action, $args) {
+    if ('plugin_information' !== $action) return $res;
+    if ($this->plugin_slug !== $args->slug) return $res;
 
-    // print_r( $action );
-    // print_r( $args );
-
-    // do nothing if you're not getting plugin information right now
-    if ('plugin_information' !== $action) {
-      return $res;
+    $update_info_cached = get_transient($this->cache_key);
+    if ( $update_info_cached === false) {
+      return $update_info_cached;
+    } else {
+      return $this->build_update_info();
     }
+  }
 
-    // do nothing if it is not our plugin
-    if ($this->plugin_slug !== $args->slug) {
-      return $res;
-    }
+  private function build_update_info() {
+    $hash = $this->get_remote_info();
+    $update_info = new \stdClass;
+    $update_info->slug = $this->plugin_slug;
+    $update_info->plugin =$hash->name;
+    $update_info->new_version = $hash->version;
+    $update_info->tested = $hash->tested;
+    $update_info->package = $hash->download_url;
+    $update_info->name = $hash->name;
+    $update_info->requires = $hash->requires;
+    $update_info->author = $hash->author;
+    $update_info->author_profile = property_exists($hash, 'author_profile') ? $hash->author_profile : 'https://www.hotelkooperation.de/';
+    $update_info->download_link = $hash->download_url;
+    $update_info->trunk = $hash->download_url;
+    $update_info->requires_php = $hash->requires_php;
+    $update_info->last_updated = $hash->last_updated;
 
-    // get updates
-    $remote = $this->request();
-
-    if (!$remote) {
-      return $res;
-    }
-
-    $res = new stdClass();
-
-    $res->name = $remote->name;
-    $res->slug = $remote->slug;
-    $res->version = $remote->version;
-    $res->tested = $remote->tested;
-    $res->requires = $remote->requires;
-    $res->author = $remote->author;
-    $res->author_profile = $remote->author_profile;
-    $res->download_link = $remote->download_url;
-    $res->trunk = $remote->download_url;
-    $res->requires_php = $remote->requires_php;
-    $res->last_updated = $remote->last_updated;
-
-    $res->sections = array(
-      'description' => $remote->sections->description,
-      'installation' => $remote->sections->installation,
-      'changelog' => $remote->sections->changelog
+    $update_info->sections = array(
+      'description' => $hash->sections->description,
+      'installation' => $hash->sections->installation,
+      'changelog' => property_exists($hash->sections, 'changelog') ? $hash->sections->changelog : ''
     );
 
-    if (!empty($remote->banners)) {
-      $res->banners = array(
-        'low' => $remote->banners->low,
-        'high' => $remote->banners->high
+    if (!empty($hash->banners)) {
+      $update_info->banners = array(
+        'low' => $hash->banners->low,
+        'high' => $hash->banners->high
       );
     }
 
-    return $res;
-
+    return $update_info;
   }
+
+  private function get_remote_info() {
+    $response = wp_remote_get(
+      'https://www.akzent.de/wp-plugin/info.json',
+      array(
+        'timeout' => 10,
+        'headers' => array(
+          'Accept' => 'application/json'
+        )
+      )
+    );
+
+    if (
+      is_wp_error($response)
+      || 200 !== wp_remote_retrieve_response_code($response)
+      || empty(wp_remote_retrieve_body($response))
+    ) {
+      return false;
+    }
+
+    return json_decode(wp_remote_retrieve_body($response));
+  }
+
 }
