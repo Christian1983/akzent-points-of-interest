@@ -42,9 +42,9 @@ class UpdateChecker
 
     $update_info_cached = get_transient($this->cache_key);
     if ( $update_info_cached === false) {
-      return $update_info_cached;
-    } else {
       return $this->build_update_info();
+    } else {
+      return $update_info_cached;
     }
   }
 
