@@ -48,7 +48,7 @@ class BaseLoader {
           'public' => true,
           'show_in_rest' => true, // nötig damit gutenberg die pois 'sehen' kann
           'show_ui' => true,
-          'show_in_menu' => true,
+          'show_in_menu' => false,
           'menu_position' => 4,
           'menu_icon' => AKZENT_POINTS_OF_INTEREST_DEFAULT_ICON,
           'rewrite' => array('slug' => 'reiseinspirationen'),
