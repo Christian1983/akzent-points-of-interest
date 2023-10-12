@@ -18,6 +18,9 @@ class ImageCardGridView {
    */
   static function render($posts, $image_size) {
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/views/image_card.php';
+    wp_enqueue_style( 'akzent_bootstrap_style' );
+    wp_enqueue_style( 'akzent_main_style' );
+    wp_enqueue_style( 'akzent_grid_style' );
 
 		?>
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g4">

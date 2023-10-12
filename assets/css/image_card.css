@@ -10,6 +10,7 @@
 }
 
 .akzent-point-of-interest-image-card-inner {
+  background-image: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.85));
   position: absolute;
   top:0;
   left: 0;
@@ -19,7 +20,6 @@
   justify-content: end;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.75))
 }
 
 .akzent-point-of-interest-image-wrapper {
@@ -34,7 +34,15 @@
   vertical-align: middle
 }
 
+.akzent-point-of-interest-title {
+  color:#cca772;
+  text-align: center;
+  text-shadow: 1px 1px 6px black;
+}
+
+
 .akzent-point-of-interest-address-line {
+  text-align: center;
   font-weight: 400;
   word-spacing: 6px;
   margin: 0;
@@ -45,11 +53,21 @@
   width: 100%;
 }
 
+.akzent-point-of-interest-content {
+  color: #FFF;
+  display: block;
+  text-align: center;
+  text-rendering: optimizeLegibility;
+  text-wrap: balance;
+  padding: 1vw;
+}
+
 .akzent-point-of-interest-image-card-footer .bottom-footer{
-  padding: 0.3vw;
+  color: #cca772;
   display: flex;
   justify-content: space-between;
-  color: blanchedalmond;
+  text-shadow: 1px 1px 1px black;
+  padding: 0.3vw
 }
 
 .akzent-point-of-interest-image-card-footer .copyright-footer-note {

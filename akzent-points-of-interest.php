@@ -13,7 +13,7 @@
 
 // Exit if accessed directly
 defined('ABSPATH') || exit;
-define('AKZENT_POINTS_OF_INTEREST_VERSION', '1.0.0');
+define('AKZENT_POINTS_OF_INTEREST_VERSION', '1.0.1');
 define('AKZENT_POINTS_OF_INTEREST_FILE', __FILE__);
 define('AKZENT_POINTS_OF_INTEREST_PATH', plugin_dir_path(AKZENT_POINTS_OF_INTEREST_FILE));
 define('AKZENT_POINTS_OF_INTEREST_PLUGIN_SLUG', 'akzent-points-of-interest/akzent-points-of-interest.php');
@@ -23,7 +23,7 @@ define('AKZENT_POINTS_OF_INTEREST_PRIMARY_COLOR', '#cca772');
 
 if (!version_compare(PHP_VERSION, '7.0', '>=')) {
 //TODO: implement
-} elseif (!version_compare(get_bloginfo('version'), '5.9', '>=')) {
+} elseif (!version_compare(get_bloginfo('version'), '6.0', '>=')) {
 //TODO: implement
 } else {
 	require AKZENT_POINTS_OF_INTEREST_PATH . 'includes/plugin.php';

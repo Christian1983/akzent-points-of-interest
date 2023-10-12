@@ -20,11 +20,11 @@ class ImageCardView {
     if (!$point) {
       return;
     }
-
     $img_html = get_the_post_thumbnail($point->ID, $image_size, array('class' => 'card-img-top'));
+    wp_enqueue_style( 'akzent_image_card_style' );
 
     ?>
-    <div class="akzent-point-of-interest-image-card" style="height: <?php echo $max_height > 0 ? $max_height . 'px' : 'unset'; ?>">
+    <div class="akzent-point-of-interest-image-card" style="height: <?php echo $max_height > 0 ? $max_height . 'px' : '35vh'; ?>">
       <div class="akzent-point-of-interest-image-wrapper">
         <?php echo $img_html ?>
       </div>

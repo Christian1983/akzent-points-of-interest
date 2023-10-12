@@ -23,12 +23,27 @@
   }
 }
 
+.akzent-point-of-interest-image-card-inner {
+  opacity: 0.0;
+  transition: all ease-in 1.0s;
+}
+
+.swiper-slide-active .akzent-point-of-interest-image-card-inner {
+  opacity: 1.0;
+}
+
 .akzent-point-of-interest-title {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 200;
   letter-spacing: 0.65vw;
-  color:#cca772 !important;
-  margin: 0
+  margin: 0;
+  text-shadow: 1px 1px 6px black
+}
+
+@media only screen and (min-width: 680px) {
+  .akzent-point-of-interest-title {
+    font-size: 48px;
+  }
 }
 
 .akzent-point-of-interest-slider .swiper-pagination-bullets {

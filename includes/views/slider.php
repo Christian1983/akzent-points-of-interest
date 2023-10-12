@@ -18,6 +18,12 @@ class ImageCardSliderView {
    */
   static function render($posts, $image_size, $max_height) {
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/views/image_card.php';
+    wp_enqueue_style( 'akzent_bootstrap_style' );
+    wp_enqueue_style( 'akzent_main_style' );
+    wp_enqueue_style( 'akzent_swiper_style' );
+    wp_enqueue_style( 'akzent_slider_style' );
+    wp_enqueue_script( 'akzent_slider_widget_swiper_script' );
+    wp_enqueue_script( 'akzent_slider_widget_initialization_script' );
 
     ?>
       <div class="akzent-point-of-interest-slider">

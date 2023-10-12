@@ -14,7 +14,7 @@ class UpdateChecker
   {
     $this->plugin_slug = AKZENT_POINTS_OF_INTEREST_PLUGIN_SLUG;
     $this->version = AKZENT_POINTS_OF_INTEREST_VERSION;
-    $this->cache_key = 'akzent_points_of_interest_update_info_2';
+    $this->cache_key = 'akzent_points_of_interest_update_info';
     add_filter( 'plugins_api', array($this, 'info'), 20, 3 );
     add_filter( 'site_transient_update_plugins', array( $this, 'handle_plugin_update' ) );
   }

@@ -47,13 +47,11 @@ class Plugin
   private function init_base_loader() {
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/loader/base.php';
     $this->base_loader = new Loader\BaseLoader();
-    return $this->base_loader->valid();
   }
 
   private function init_elementor_loader() {
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/loader/elementor.php';
     $this->elementor_loader = new Loader\ElementorLoader();
-    return true;
   }
 
   public function initial_fetch_points_of_interest()
