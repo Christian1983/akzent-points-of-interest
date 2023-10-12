@@ -23,7 +23,7 @@ define('AKZENT_POINTS_OF_INTEREST_PRIMARY_COLOR', '#cca772');
 
 if (!version_compare(PHP_VERSION, '7.0', '>=')) {
 //TODO: implement
-} elseif (!version_compare(get_bloginfo('version'), '6.0', '>=')) {
+} elseif (!version_compare(get_bloginfo('version'), '6.0.3', '>=')) {
 //TODO: implement
 } else {
 	require AKZENT_POINTS_OF_INTEREST_PATH . 'includes/plugin.php';
