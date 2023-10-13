@@ -18,7 +18,7 @@ class ImageCardSliderView {
    */
   static function render($posts, $image_size, $max_height) {
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/views/image_card.php';
-    wp_enqueue_style( 'akzent_bootstrap_style' );
+    //wp_enqueue_style( 'akzent_bootstrap_style' );
     wp_enqueue_style( 'akzent_main_style' );
     wp_enqueue_style( 'akzent_swiper_style' );
     wp_enqueue_style( 'akzent_slider_style' );

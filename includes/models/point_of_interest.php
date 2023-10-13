@@ -18,8 +18,22 @@ class PointOfInterest {
     return self::filter();
   }
 
+  public static function update_check_list() {
+    $points_of_interest = self::filter();
+    return self::update_check_list_map($points_of_interest);
+  }
+
+  private static function update_check_list_map($array) {
+    $final_array = [];
+    foreach($array as $entry) {
+      $final_array[] = "{$entry->akzent_id}, {$entry->updated_at}";
+    }
+
+    return $final_array;
+  }
+
 	/**
-	 * Sort and filter
+	 * Sort, filter and invoke check update on api.
 	 *
 	 * @since 1.0.0
 	 * @access public
@@ -29,6 +43,10 @@ class PointOfInterest {
 	 * @param array    $metaFilter     Contains all filter for meta fields eg.: ['akzent_id', 123, '='] or ['rating', 2.5, '=>']
 	 */
   public static function filter($orderBy='post_title', $orderDesc=false, $metaFilter=[]) {
+    if (get_transient( 'akzent_check_changed_points_of_interest_1' ) === false) {
+      do_action( 'check_changed_points_of_interest' );
+    }
+
     $query_args = self::sanitize_filter($orderBy, $orderDesc, $metaFilter);
 
     $post_query = new \WP_Query($query_args);
@@ -135,7 +153,7 @@ class PointOfInterest {
     }
   }
 
-  private static function create($obj) {
+  public static function create($obj) {
     $post_array       = self::build_post_array($obj);
     $post_meta_array  = self::build_post_meta_array($obj);
     $new_post_id  = wp_insert_post($post_array);
@@ -153,8 +171,9 @@ class PointOfInterest {
     return true;
   }
 
-  private static function update($obj, $old_post) {
-    //TODO: implement
+  public static function update($akzent_id, $obj) {
+    $post = self::find_by($akzent_id);
+    $a = 1;
   }
 
   private static function create_post_meta_data($obj, $id) {
@@ -196,6 +215,7 @@ class PointOfInterest {
       'zipcode'  => $obj->zipcode,
       'city'     => $obj->city,
       'street'   => $obj->street,
+      'updated_at' => $obj->updated_at,
       'user'     => $obj->images[0]->user,
       'user_url' => $obj->images[0]->usr_url
     );
@@ -233,12 +253,12 @@ class PointOfInterest {
     $query_args = array('post_type' => 'points_of_interest', 'posts_per_page' => -1);
     $post_query = new \WP_Query($query_args);
     if ($post_query->have_posts()) {
-      array_map(array(get_called_class(), 'delete_post'), $post_query->posts);
+      array_map(array(get_called_class(), 'delete'), $post_query->posts);
       wp_reset_postdata();
     }
   }
 
-  private static function delete_post($post) {
+  public static function delete($post) {
     wp_delete_post($post->ID, true);
   }
 }

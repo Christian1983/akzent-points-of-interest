@@ -7,11 +7,12 @@ class BaseLoader {
 
   function __construct() {
     $this->load_files();
-    add_filter( 'load_template', [$this, 'assign_template']);
-    add_action('wp_register_style', [$this, 'register_styles']);
-    add_action('wp_register_scripts', [$this, 'register_scripts']);
-    add_action('init', [$this, 'register_point_of_interest']);
     $this->register_shortcodes();
+    //add_filter( 'load_template', [$this, 'assign_template'] );
+    add_action( 'wp_register_style', [$this, 'register_styles'] );
+    add_action( 'wp_register_scripts', [$this, 'register_scripts'] );
+    add_action( 'init', [$this, 'register_point_of_interest'] );
+    //\AkzentPointsOfInterest\Models\PointOfInterest::destroy_all();
   }
 
   private function load_files() {
