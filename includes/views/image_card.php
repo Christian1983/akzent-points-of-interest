@@ -20,6 +20,8 @@ class ImageCardView {
     if (!$point) {
       return;
     }
+    //\AkzentPointsOfInterest\Models\PointOfInterest::update($point->akzent_id, $point);
+
     $img_html = get_the_post_thumbnail($point->ID, $image_size, array('class' => 'card-img-top'));
     wp_enqueue_style( 'akzent_image_card_style' );
 
