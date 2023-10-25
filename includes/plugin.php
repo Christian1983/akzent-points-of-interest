@@ -23,16 +23,15 @@ class Plugin
 
 
   public function init() {
-    $this->init_update_checker();
     $this->init_base_loader();
+    $this->init_update_checker();
     if ($this->is_compatible()) {
       $this->init_elementor_loader();
     }
 
     $this->settings = new Settings();
     $this->api = new API();
-    //Models\PointOfInterest::destroy_all();
-    add_action('update_option_' . Settings::OPTIONS_BASE_NAME, [$this, 'initial_fetch_points_of_interest']);
+    add_action('update_option_' . Settings::OPTIONS_BASE_NAME, [$this, 'fetch_points_of_interest']);
   }
 
   public function assign_template() {
@@ -54,11 +53,12 @@ class Plugin
     $this->elementor_loader = new Loader\ElementorLoader();
   }
 
-  public function initial_fetch_points_of_interest()
+  public function fetch_points_of_interest()
   {
     $cpt_objects = $this->api->get_all();
     foreach($cpt_objects as $object) {
-      Models\PointOfInterest::save($object);
+      $point_of_interest = new Models\BaseModel($object);
+      $a = 1;
     }
   }
 
