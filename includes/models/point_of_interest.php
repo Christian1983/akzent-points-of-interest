@@ -3,6 +3,8 @@
 namespace AkzentPointsOfInterest\Models;
 use AkzentPointsOfInterest\Models\PointOfInterestImage;
 
+defined('ABSPATH') || exit;
+
 class PointOfInterest {
   public static function save($obj) {
     $t = self::find_by($obj->akzent_id);
@@ -44,7 +46,7 @@ class PointOfInterest {
 	 */
   public static function filter($orderBy='post_title', $orderDesc=false, $metaFilter=[]) {
     if (get_transient( 'akzent_check_changed_points_of_interest_1' ) === false) {
-      do_action( 'check_changed_points_of_interest' );
+      //do_action( 'check_changed_points_of_interest' );
     }
 
     $query_args = self::sanitize_filter($orderBy, $orderDesc, $metaFilter);
@@ -101,7 +103,6 @@ class PointOfInterest {
   // point = PointOfInterest->first
   // point->images->first->url
   // point->images->first->html_tag
-
   private static function build_model_object_from($posts) {
     $final_array = array();
     foreach($posts as $post_object) {
@@ -147,7 +148,8 @@ class PointOfInterest {
 
     $post_query = new \WP_Query($query_args);
     if ($post_query->have_posts()) {
-      return $post_query->the_post();
+      return $post_query->posts[0];
+      //return $post_query->the_post();
     } else {
       return NULL;
     }
@@ -156,7 +158,8 @@ class PointOfInterest {
   public static function create($obj) {
     $post_array       = self::build_post_array($obj);
     $post_meta_array  = self::build_post_meta_array($obj);
-    $new_post_id  = wp_insert_post($post_array);
+    $new_post_id      = wp_insert_post($post_array);
+
     if (is_wp_error( $new_post_id )) { return false; }
 
     foreach($post_meta_array as $key => $value) {
@@ -171,9 +174,19 @@ class PointOfInterest {
     return true;
   }
 
-  public static function update($akzent_id, $obj) {
-    $post = self::find_by($akzent_id);
-    $a = 1;
+  public static function update($akzent_id, $new_post) {
+    $old_post = self::find_by($akzent_id);
+    $post_id = $old_post->ID;
+
+    $final_update_obj = self::build_post_array($new_post);
+    $final_update_obj['ID'] = $post_id;
+    wp_update_post($final_update_obj);
+    self::update_post_meta_data(self::build_post_meta_array($new_post), $post_id);
+
+    if (!empty($new_post->images)) {
+      $image = PointOfInterestImage::find_by($akzent_id);
+    }
+
   }
 
   private static function create_post_meta_data($obj, $id) {
@@ -221,32 +234,6 @@ class PointOfInterest {
     );
 
     return $post_meta_array;
-  }
-
-  public static function register() {
-    $result = register_post_type( 'points_of_interest',
-      array(
-        'labels' => array(
-            'name' => __( 'Reiseinspirationen' ),
-            'singular_name' => __( 'Reiseinspiration' )
-          ),
-          'capabilities' => array(
-            'read_points_of_interest' => true,
-            'delete_points_of_interest' => true,
-            'create_points_of_interest' => false,
-            'edit_points_of_interest' => false,
-          ),
-          'has_archive' => true,
-          'public' => true,
-          'show_in_rest' => true, // nötig damit gutenberg die pois 'sehen' kann
-          'show_ui' => true,
-          'show_in_menu' => true,
-          'menu_position' => 4,
-          'menu_icon' => 'dashicons-sticky',
-          'rewrite' => array('slug' => 'reiseinspirationen'),
-          'supports' => array('title', 'editor', 'description', 'author', 'thumbnail', 'custom-fields')
-        )
-      );
   }
 
   public static function destroy_all() {
