@@ -12,13 +12,14 @@ class BaseLoader {
     add_action( 'wp_register_style', [$this, 'register_styles'] );
     add_action( 'wp_register_scripts', [$this, 'register_scripts'] );
     add_action( 'init', [$this, 'register_point_of_interest'] );
-    //\AkzentPointsOfInterest\Models\PointOfInterest::destroy_all();
   }
 
   private function load_files() {
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/settings.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/api.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/helper/string.php';
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/base.php';
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/base_image.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest_image.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/shortcodes.php';
