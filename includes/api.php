@@ -14,7 +14,6 @@ class API
       $this->base_url = 'https://www.akzent.de/api/v2/hotels';
     }
     add_action('check_changed_points_of_interest', [$this, 'check_changed_points_of_interest']);
-    //Models\PointOfInterest::destroy_all();
   }
   public function get_all() {
     $response = $this->get($this->full_url());
@@ -41,8 +40,8 @@ class API
 
   public function check_changed_points_of_interest() {
     set_transient( 'akzent_check_changed_points_of_interest_1', true, 10 );
-    $api_key = get_option(Settings::OPTIONS_BASE_NAME)['api_key'];
-    $hotel_url = trailingslashit($this->base_url) . trailingslashit($api_key);
+    $api_key                    = get_option(Settings::OPTIONS_BASE_NAME)['api_key'];
+    $hotel_url                  = trailingslashit($this->base_url) . trailingslashit($api_key);
     $points_of_interest_db      = Models\PointOfInterest::update_check_list();
     $points_of_interest_remote  = json_decode($this->get($hotel_url)['body']);
     $difference                 = array_diff($points_of_interest_remote, $points_of_interest_db);
@@ -53,7 +52,6 @@ class API
         Models\PointOfInterest::update($id, $this->fetch($id));
       } else {
         if ( str_contains(implode($points_of_interest_remote), $id) ) {
-          // new
           Models\PointOfInterest::create($this->fetch($id));
         } else {
           Models\PointOfInterest::delete(Models\PointOfInterest::find_by($id));
@@ -61,10 +59,6 @@ class API
       }
     }
     return 0;
-  }
-
-  private function check_new_points_of_interest() {
-
   }
 
   private function get($url) {
