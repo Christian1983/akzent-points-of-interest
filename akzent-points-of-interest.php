@@ -16,6 +16,7 @@ defined('ABSPATH') || exit;
 define('AKZENT_POINTS_OF_INTEREST_VERSION', '1.0.1');
 define('AKZENT_POINTS_OF_INTEREST_FILE', __FILE__);
 define('AKZENT_POINTS_OF_INTEREST_PATH', plugin_dir_path(AKZENT_POINTS_OF_INTEREST_FILE));
+define('AKZENT_POINTS_OF_INTEREST_IMAGE_PATH', plugin_dir_path(AKZENT_POINTS_OF_INTEREST_FILE) . '/assets/images/');
 define('AKZENT_POINTS_OF_INTEREST_PLUGIN_SLUG', 'akzent-points-of-interest/akzent-points-of-interest.php');
 define('AKZENT_POINTS_OF_INTEREST_PLUGIN_NAME', 'AKZENT Reiseinspirationen');
 define('AKZENT_POINTS_OF_INTEREST_DEFAULT_ICON', 'dashicons-sticky');
