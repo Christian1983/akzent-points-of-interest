@@ -31,7 +31,7 @@ class Plugin
 
     $this->settings = new Settings();
     $this->api = new API();
-    add_action('update_option_' . Settings::OPTIONS_BASE_NAME, [$this, 'fetch_points_of_interest']);
+    add_action('update_option_' . Settings::OPTIONS_BASE_NAME, [$this, 'build_points_of_interest']);
   }
 
   public function assign_template() {
@@ -53,12 +53,11 @@ class Plugin
     $this->elementor_loader = new Loader\ElementorLoader();
   }
 
-  public function fetch_points_of_interest()
+  public function build_points_of_interest()
   {
-    $cpt_objects = $this->api->get_all();
-    foreach($cpt_objects as $object) {
-      $point_of_interest = new Models\BaseModel($object);
-      $a = 1;
+    $objects = $this->api->get_all();
+    foreach($objects as $object) {
+      new Models\Builder($object);
     }
   }
 

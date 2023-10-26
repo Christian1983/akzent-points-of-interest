@@ -26,7 +26,7 @@ class ImageCardView {
     wp_enqueue_style( 'akzent_image_card_style' );
 
     ?>
-    <div class="akzent-point-of-interest-image-card" style="height: <?php echo $max_height > 0 ? $max_height . 'px' : '35vh'; ?>">
+    <div class="akzent-point-of-interest-image-card" style="height: <?php echo $max_height > 300 ? $max_height . 'px' : '50vh'; ?>">
       <div class="akzent-point-of-interest-image-wrapper">
         <?php echo $img_html ?>
       </div>
@@ -54,7 +54,7 @@ class ImageCardView {
           <div class="akzent-point-of-interest-image-card-footer akzent-w100">
             <div class="bottom-footer">
               <div class="akzent-point-of-interest-distance-wrapper">
-                <span class="akzent-point-of-interest-distance"><?php echo $point->distancew ?> entfernt</span>
+                <span class="akzent-point-of-interest-distance"><?php echo $point->distance_str ?> entfernt</span>
               </div>
 
               <div class="akzent-point-of-interest-rating-wrapper">

@@ -1,243 +1,34 @@
 <?php
 
 namespace AkzentPointsOfInterest\Models;
-use AkzentPointsOfInterest\Models\PointOfInterestImage;
 
 defined('ABSPATH') || exit;
 
-class PointOfInterest {
-  public static function save($obj) {
-    $t = self::find_by($obj->akzent_id);
-    if ($t == NULL) {
-      return self::create($obj);
-    } else {
-      return self::update($obj, $t);
-    }
-  }
+class PointOfInterest extends \stdClass {
 
-  // returns all points_of_interest as StdClass in an Array
-  public static function all() {
-    return self::filter();
-  }
-
-  public static function update_check_list() {
-    $points_of_interest = self::filter();
-    return self::update_check_list_map($points_of_interest);
-  }
-
-  private static function update_check_list_map($array) {
-    $final_array = [];
-    foreach($array as $entry) {
-      $final_array[] = "{$entry->akzent_id}, {$entry->updated_at}";
-    }
-
-    return $final_array;
-  }
-
-	/**
-	 * Sort, filter and invoke check update on api.
+    /**
+	 * Model class so we have meta and post information in one stdClass
 	 *
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string   $orderBy        Field wich should be used for order
-	 * @param string   $orderDesc      Order direction
-	 * @param array    $metaFilter     Contains all filter for meta fields eg.: ['akzent_id', 123, '='] or ['rating', 2.5, '=>']
+	 * @param WP_Post   $post          The custom post type post wich we use to create our model
 	 */
-  public static function filter($orderBy='post_title', $orderDesc=false, $metaFilter=[]) {
-    if (get_transient( 'akzent_check_changed_points_of_interest_1' ) === false) {
-      //do_action( 'check_changed_points_of_interest' );
+  function __construct($post) {
+    $meta  = get_post_meta($post->ID);
+
+    foreach($post as $key => $value) {
+      $this->$key = $value;
     }
 
-    $query_args = self::sanitize_filter($orderBy, $orderDesc, $metaFilter);
-
-    $post_query = new \WP_Query($query_args);
-    if ($post_query->have_posts()) {
-      return self::build_model_object_from($post_query->posts);
-    }
-  }
-
-
-  /**
-	 * Sanitizes the filter params and builds an array
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string   $orderBy        Field wich should be used for order
-	 * @param string   $orderDesc      Order direction
-	 * @param array    $metaFilter     Contains all filter for meta fields eg.: ['akzent_id', 123, '='] or ['rating', 2.5, '=>']
-	 */
-  private static function sanitize_filter($orderBy, $orderDesc, $metaFilter) {
-    $filterObject = array();
-
-    $filterObject['post_type'] = 'points_of_interest';
-    $filterObject['order'] = $orderDesc ? 'DESC' : 'ASC';
-    if ($orderBy == 'name' || $orderBy == 'title' || $orderBy == 'post_title') {
-      $filterObject['orderBy'] = 'post_title';
-    } else {
-      $filterObject['orderBy'] = 'meta_' . $orderBy;
-    }
-
-    if (!empty($metaFilter)) {
-      $filterObject['meta_query'] = array();
-      foreach($metaFilter as $index => $filter_array) {
-        $field = $filter_array[0];
-        $value = $filter_array[1];
-        $compare = $filter_array[2];
-        $final_meta_filter_array[] = array(
-          'key' => $field,
-          'value' => $value,
-          'compare' => $compare
-          );
-        }
-    }
-
-    return $filterObject;
-  }
-
-  // merges meta and post attributes (i love rails :))
-  // TODO:
-  // i still need an idea to make this a real object with relations
-  // i want something like:
-  // point = PointOfInterest->first
-  // point->images->first->url
-  // point->images->first->html_tag
-  private static function build_model_object_from($posts) {
-    $final_array = array();
-    foreach($posts as $post_object) {
-      $point_object = new \stdClass();
-      $meta_object  = get_post_meta($post_object->ID);
-
-      foreach($post_object as $key => $value) {
-        $point_object->$key = $value;
-      }
-
-      foreach($meta_object as $key => $value) {
-        $point_object->$key = $value[0];
-      }
-
-      $final_array[] = $point_object;
-    }
-
-    return $final_array;
-  }
-
-  public static function first() {
-    $query_args = array(
-      'post_type' => 'points_of_interest',
-    );
-
-    $post_query = new \WP_Query($query_args);
-    if ($post_query->have_posts()) {
-      return $post_query->posts[0];
+    foreach($meta as $key => $value) {
+      $this->$key = $value[0];
     }
   }
 
-  public static function find_by($akzent_id) {
-    $query_args = array(
-      'post_type' => 'points_of_interest',
-      'meta_query' => array(
-        array(
-          'key' => 'akzent_id',
-          'value' => $akzent_id,
-          'compare' => '='
-        )
-      )
-    );
-
-    $post_query = new \WP_Query($query_args);
-    if ($post_query->have_posts()) {
-      return $post_query->posts[0];
-      //return $post_query->the_post();
-    } else {
-      return NULL;
-    }
-  }
-
-  public static function create($obj) {
-    $post_array       = self::build_post_array($obj);
-    $post_meta_array  = self::build_post_meta_array($obj);
-    $new_post_id      = wp_insert_post($post_array);
-
-    if (is_wp_error( $new_post_id )) { return false; }
-
-    foreach($post_meta_array as $key => $value) {
-      add_post_meta( $new_post_id, $key, $value );
-    }
-
-    if (!empty($obj->images)) {
-      $image = new PointOfInterestImage($obj->name, $obj->images[0], $new_post_id);
-      $image->save();
-    }
-
-    return true;
-  }
-
-  public static function update($akzent_id, $new_post) {
-    $old_post = self::find_by($akzent_id);
-    $post_id = $old_post->ID;
-
-    $final_update_obj = self::build_post_array($new_post);
-    $final_update_obj['ID'] = $post_id;
-    wp_update_post($final_update_obj);
-    self::update_post_meta_data(self::build_post_meta_array($new_post), $post_id);
-
-    if (!empty($new_post->images)) {
-      $image = PointOfInterestImage::find_by($akzent_id);
-    }
-
-  }
-
-  private static function create_post_meta_data($obj, $id) {
-    foreach($obj as $key => $value) {
-      add_post_meta($id, $key, $value);
-    }
-  }
-
-  private static function update_post_meta_data($obj, $id) {
-    foreach($obj as $key => $value) {
-      update_post_meta($id, $key, $value);
-    }
-  }
-
-  private static function build_post_array($obj) {
-    $title    = $obj->name;
-    $desc     = $obj->description;
-    $disply  = $obj->display;
-
-    $post_array = array(
-      'post_title' => $title,
-      'post_content' => $desc,
-      'post_status' => $disply ? 'publish' : 'private',
-      'post_author' => 1,
-      'post_type' => 'points_of_interest'
-    );
-
-    return $post_array;
-  }
-
-  private static function build_post_meta_array($obj) {
-    $post_meta_array = array(
-      'akzent_id' => $obj->akzent_id,
-      'rating'  => $obj->rating,
-      'number_of_ratings' => $obj->number_of_ratings,
-      'display'  => $obj->display,
-      'distance' => $obj->distance,
-      'distancew' => $obj->distance_word,
-      'zipcode'  => $obj->zipcode,
-      'city'     => $obj->city,
-      'street'   => $obj->street,
-      'updated_at' => $obj->updated_at,
-      'user'     => $obj->images[0]->user,
-      'user_url' => $obj->images[0]->usr_url
-    );
-
-    return $post_meta_array;
-  }
 
   public static function destroy_all() {
-    $query_args = array('post_type' => 'points_of_interest', 'posts_per_page' => -1);
+    $query_args = array('post_type' => AKZENT_POINTS_OF_INTEREST_CPT_NAME, 'posts_per_page' => -1);
     $post_query = new \WP_Query($query_args);
     if ($post_query->have_posts()) {
       array_map(array(get_called_class(), 'delete'), $post_query->posts);
@@ -246,6 +37,7 @@ class PointOfInterest {
   }
 
   public static function delete($post) {
+    wp_delete_attachment( $post->ID, true );
     wp_delete_post($post->ID, true);
   }
 }

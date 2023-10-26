@@ -11,12 +11,12 @@ class ImageCardSliderView {
    * @since 1.0.0
    * @access public
    *
-   * @param array    $posts       Point of Interest custom post type array
+   * @param array    $points      Array of Point of Interest model class
    * @param string   $image_size  Elementor Image Size
    * @param string   $max_height  The max height in px for the card (Based on smallest image, since akzent ignores all my warning about image sizes)
    *                              i mean, images with height: 4800 width: 960 should not be uploaded but if i validate them im the bad guy -.-
    */
-  static function render($posts, $image_size, $max_height) {
+  static function render($points, $image_size, $max_height) {
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/views/image_card.php';
     //wp_enqueue_style( 'akzent_bootstrap_style' );
     wp_enqueue_style( 'akzent_main_style' );
@@ -29,7 +29,7 @@ class ImageCardSliderView {
       <div class="akzent-point-of-interest-slider">
         <div class="swiper akzent-swiper">
           <div class="swiper-wrapper" style="margin-bottom: 1vh">
-            <?php foreach($posts as $point ) : ?>
+            <?php foreach($points as $point ) : ?>
               <div class="swiper-slide">
                 <?php ImageCardView::render($point, $image_size, $max_height); ?>
               </div>

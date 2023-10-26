@@ -18,11 +18,13 @@ class BaseLoader {
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/settings.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/api.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/helper/string.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/base.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/base_image.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest.php';
-    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest_image.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/shortcodes.php';
+
+    // Models
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/builder.php';
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/builder_image.php';
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/filter.php';
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest.php';
   }
 
   private function register_shortcodes() {
@@ -32,7 +34,7 @@ class BaseLoader {
 
   public function register_point_of_interest() {
     register_post_type(
-      'point_of_interest',
+      AKZENT_POINTS_OF_INTEREST_CPT_NAME,
       apply_filters( 'load_template',
         array(
           'labels' => array(
