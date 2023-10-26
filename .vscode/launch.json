@@ -11,7 +11,7 @@
       "port": 9003,
       "log": true,
       "pathMappings": {
-        "/var/www/html/wp-content": "/Users/neumann/Development/wordpress",
+        "/var/www/html/wp-content": "/Users/neumann/Development/wordpress/",
       },
     }
   ]
