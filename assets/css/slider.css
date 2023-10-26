@@ -19,7 +19,7 @@
   }
 
   .akzent-point-of-interest-content-wrapper {
-    display: none;
+    display: none !important;
   }
 }
 
