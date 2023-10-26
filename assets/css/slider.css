@@ -25,7 +25,7 @@
 
 .akzent-point-of-interest-image-card-inner {
   opacity: 0.0;
-  transition: all ease-in 1.0s;
+  transition: all ease-in 1.5s;
 }
 
 .swiper-slide-active .akzent-point-of-interest-image-card-inner {
