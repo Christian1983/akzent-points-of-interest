@@ -5,7 +5,7 @@ defined('ABSPATH') || exit;
 class API
 {
 
-  private $base_url = '';
+  public $base_url = '';
 
   public function __construct() {
     if (str_contains(home_url(), 'localhost')) {
@@ -38,30 +38,7 @@ class API
     return $this->get($full_url)['code'] == 200;
   }
 
-  public function check_changed_points_of_interest() {
-    set_transient( 'akzent_check_changed_points_of_interest_1', true, 10 );
-    $api_key                    = get_option(Settings::OPTIONS_BASE_NAME)['api_key'];
-    $hotel_url                  = trailingslashit($this->base_url) . trailingslashit($api_key);
-    $points_of_interest_db      = Models\PointOfInterest::update_check_list();
-    $points_of_interest_remote  = json_decode($this->get($hotel_url)['body']);
-    $difference                 = array_diff($points_of_interest_remote, $points_of_interest_db);
-
-    foreach($difference as $entry) {
-      $id = explode(',', $entry)[0];
-      if ( str_contains(implode($points_of_interest_db), $id) ) {
-        Models\PointOfInterest::update($id, $this->fetch($id));
-      } else {
-        if ( str_contains(implode($points_of_interest_remote), $id) ) {
-          Models\PointOfInterest::create($this->fetch($id));
-        } else {
-          Models\PointOfInterest::delete(Models\PointOfInterest::find_by($id));
-        }
-      }
-    }
-    return 0;
-  }
-
-  private function get($url) {
+  public function get($url) {
     $response = wp_remote_get($url);
     if (is_wp_error($response)) {
       return ['body' => '', 'code' => 0];

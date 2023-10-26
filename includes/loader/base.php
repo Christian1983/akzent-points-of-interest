@@ -22,6 +22,7 @@ class BaseLoader {
 
     // Models
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/builder.php';
+    require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/updater.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/builder_image.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/filter.php';
     require_once AKZENT_POINTS_OF_INTEREST_PATH . 'includes/models/point_of_interest.php';

@@ -76,7 +76,7 @@ class Builder {
       'zipcode'           => $obj->zipcode,
       'city'              => $obj->city,
       'street'            => $obj->street,
-      'updated_at'        => $obj->updated_at,
+      'updated_at'        => strval($obj->updated_at),
       'user'              => $obj->user,
       'user_url'          => $obj->user_url
     );

@@ -32,6 +32,15 @@ class Plugin
     $this->settings = new Settings();
     $this->api = new API();
     add_action('update_option_' . Settings::OPTIONS_BASE_NAME, [$this, 'build_points_of_interest']);
+
+    // check every 300 seconds if new data is available
+    $current_api_key = get_option(\AkzentPointsOfInterest\Settings::OPTIONS_BASE_NAME)['api_key'];
+    if (!empty($current_api_key)) {
+      if (get_transient('akzent_points_of_interest_data_check') === false) {
+        set_transient('akzent_points_of_interest_data_check', true, 300);
+        new  Models\Updater();
+      }
+    }
   }
 
   public function assign_template() {
@@ -55,6 +64,7 @@ class Plugin
 
   public function build_points_of_interest()
   {
+    Models\PointOfInterest::destroy_all();
     $objects = $this->api->get_all();
     foreach($objects as $object) {
       new Models\Builder($object);

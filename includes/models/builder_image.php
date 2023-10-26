@@ -45,7 +45,24 @@ class BuilderImage {
 
   private function build_filename($image) {
     $filename = basename($image->url);
-    $sanitized_filename = explode('?', $filename)[0];
+    $url=array(
+      "%C3%84","%C3%A4",
+      "%C3%9C","%C3%BC",
+      "%C3%96","%C3%B6",
+      "%C3%82","%C3%A2",
+      "%C3%81","%C3%A1"
+    );
+
+   $chars_replacement=array(
+    'Ae','ae',
+    'Ue','ue'.
+    'Oe','oe',
+    'A','a',
+    'A','a'
+   );
+
+    $sanitized_filename = str_replace($url, $chars_replacement, $filename);
+    $sanitized_filename = explode('?', $sanitized_filename)[0];
 
     return $sanitized_filename;
   }
