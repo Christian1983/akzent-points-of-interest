@@ -19,10 +19,6 @@ class Filter {
 	 * @param array    $metaFilter     Contains all filter for meta fields eg.: ['akzent_id', 123, '='] or ['rating', 2.5, '=>']
 	 */
   function __construct($orderBy='post_title', $orderDesc=false, $metaFilter=[]) {
-    if (get_transient( 'akzent_check_changed_points_of_interest_1' ) === false) {
-      //do_action( 'check_changed_points_of_interest' );
-    }
-
     $query_args = $this->sanitize_filter($orderBy, $orderDesc, $metaFilter);
 
     $post_query = new \WP_Query($query_args);
@@ -50,9 +46,9 @@ class Filter {
     $filterObject['post_type'] = AKZENT_POINTS_OF_INTEREST_CPT_NAME;
     $filterObject['order'] = $orderDesc ? 'DESC' : 'ASC';
     if ($orderBy == 'name' || $orderBy == 'title' || $orderBy == 'post_title') {
-      $filterObject['orderBy'] = 'post_title';
+      $filterObject['orderby'] = 'post_title';
     } else {
-      $filterObject['orderBy'] = 'meta_' . $orderBy;
+      $filterObject['orderby'] = 'meta_' . $orderBy;
     }
 
     if (!empty($metaFilter)) {
@@ -62,11 +58,12 @@ class Filter {
         $value = $filter_array[1];
         $compare = $filter_array[2];
         $final_meta_filter_array[] = array(
-          'key' => $field,
-          'value' => $value,
-          'compare' => $compare
+          'meta_key' => $field,
+          'meta_value' => $value,
+          'meta_compare' => $compare
           );
         }
+      $filterObject[] = $final_meta_filter_array;
     }
 
     return $filterObject;
