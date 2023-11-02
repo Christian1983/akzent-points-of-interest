@@ -7,7 +7,7 @@ defined('ABSPATH') || exit;
 class Filter {
 
   public $results = [];
-
+  private $update_checker = null;
   /**
 	 * Sort, filter and check for updates.
 	 *
@@ -19,14 +19,24 @@ class Filter {
 	 * @param array    $metaFilter     Contains all filter for meta fields eg.: ['akzent_id', 123, '='] or ['rating', 2.5, '=>']
 	 */
   function __construct($orderBy='post_title', $orderDesc=false, $metaFilter=[]) {
-    $query_args = $this->sanitize_filter($orderBy, $orderDesc, $metaFilter);
+    // check every 300 seconds if new data is available
+    $this->update_checker = new  Updater();
+    $current_api_key = get_option(\AkzentPointsOfInterest\Settings::OPTIONS_BASE_NAME)['api_key'];
+    if (!empty($current_api_key)) {
+      if (get_transient('akzent_points_of_interest_data_check_1') === false) {
+        $this->update_checker->check_changed_points_of_interest();
+        set_transient('akzent_points_of_interest_data_check', true, 300);
+      }
+    }
 
+    $query_args = $this->sanitize_filter($orderBy, $orderDesc, $metaFilter);
     $post_query = new \WP_Query($query_args);
     if ($post_query->have_posts()) {
       foreach($post_query->posts as $post) {
         $this->results[] = new PointOfInterest($post);
       }
     }
+
   }
 
 

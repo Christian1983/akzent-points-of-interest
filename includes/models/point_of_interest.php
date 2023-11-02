@@ -26,6 +26,16 @@ class PointOfInterest extends \stdClass {
     }
   }
 
+  public static function all() {
+    $query_args = array('post_type' => AKZENT_POINTS_OF_INTEREST_CPT_NAME);
+    $post_query = new \WP_Query($query_args);
+    if ($post_query->have_posts()) {
+      return $post_query->posts;
+    } else {
+      return [];
+    }
+  }
+
   public static function find_by($akzent_id) {
     $query_args = array(
       'post_type' => AKZENT_POINTS_OF_INTEREST_CPT_NAME,
