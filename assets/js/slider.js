@@ -23,15 +23,15 @@ waitForEle('.akzent-swiper').then((ele) => {
   const swiper = new Swiper('.akzent-swiper', {
     speed: 1000,
     loop: true,
-    autoHeight: false,
+    autoHeight: true,
     slidesPerView: 1,
-    spaceBetween: 160,
-    centeredSlides: true,
+    spaceBetween: 320,
+    centeredSlides: false,
     grabCursor: false,
     effect: 'coverflow',
     coverflowEffect: {
       rotate: 60,
-      slideShadows: true,
+      slideShadows: false,
     },
 
     // If we need pagination
