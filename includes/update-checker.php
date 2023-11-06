@@ -24,13 +24,14 @@ class UpdateChecker
     if ( ! isset( $update_plugins->response ) || ! is_array( $update_plugins->response ) ) $update_plugins->response = array();
 
     // prevent too many remote requests to akzent.de since wordpress fires 'site_transient_update_plugins' for every plugin installed.
-    $update_info_cached = get_transient($this->cache_key);
-    if ( $update_info_cached === false) {
-      $update_info_new = $this->build_update_info();
-      set_transient($this->cache_key, $update_info_new, DAY_IN_SECONDS);
-      $update_plugins->response[$this->plugin_slug] = $update_info_new;
-    } else {
-      $update_plugins->response[$this->plugin_slug] = $update_info_cached;
+    $update_info = get_transient($this->cache_key);
+    if ( $update_info === false) {
+      $update_info = $this->build_update_info();
+      set_transient($this->cache_key, $update_info, DAY_IN_SECONDS);
+    }
+
+    if (version_compare($this->version, $update_info->new_version, '<')) {
+      $update_plugins->response[$this->plugin_slug] = $update_info;
     }
 
     return $update_plugins;
