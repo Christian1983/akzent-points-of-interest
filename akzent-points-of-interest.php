@@ -13,7 +13,7 @@
 
 // Exit if accessed directly
 defined('ABSPATH') || exit;
-define('AKZENT_POINTS_OF_INTEREST_VERSION', '1.0.1');
+define('AKZENT_POINTS_OF_INTEREST_VERSION', '1.0.2');
 define('AKZENT_POINTS_OF_INTEREST_FILE', __FILE__);
 define('AKZENT_POINTS_OF_INTEREST_PATH', plugin_dir_path(AKZENT_POINTS_OF_INTEREST_FILE));
 define('AKZENT_POINTS_OF_INTEREST_IMAGE_PATH', 'points_of_interest_images/');
