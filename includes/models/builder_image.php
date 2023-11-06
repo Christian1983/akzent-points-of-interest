@@ -31,14 +31,7 @@ class BuilderImage {
   }
 
   private function build_filepath() {
-    $path = wp_upload_dir();
-
-    if(wp_mkdir_p($path['path'])) {
-      $path = trailingslashit( wp_upload_dir()['path'] ) . AKZENT_POINTS_OF_INTEREST_IMAGE_PATH;
-    } else {
-      $path = trailingslashitI(wp_upload_dir()['basedir'])  . AKZENT_POINTS_OF_INTEREST_IMAGE_PATH;
-    }
-
+    $path = trailingslashit( wp_upload_dir()['basedir'] ) . AKZENT_POINTS_OF_INTEREST_IMAGE_PATH;
     if ( !is_dir($path) ) { wp_mkdir_p($path); }
     return $path;
   }
