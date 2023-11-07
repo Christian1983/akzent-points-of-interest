@@ -43,7 +43,8 @@ class BuilderImage {
       "%C3%9C","%C3%BC",
       "%C3%96","%C3%B6",
       "%C3%82","%C3%A2",
-      "%C3%81","%C3%A1"
+      "%C3%81","%C3%A1",
+      '%C3%9F'
     );
 
    $chars_replacement=array(
@@ -51,7 +52,8 @@ class BuilderImage {
     'Ue','ue'.
     'Oe','oe',
     'A','a',
-    'A','a'
+    'A','a',
+    'ss'
    );
 
     $sanitized_filename = str_replace($url, $chars_replacement, $filename);

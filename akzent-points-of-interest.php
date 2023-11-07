@@ -24,9 +24,11 @@ define('AKZENT_POINTS_OF_INTEREST_DEFAULT_ICON', 'dashicons-sticky');
 define('AKZENT_POINTS_OF_INTEREST_PRIMARY_COLOR', '#cca772');
 
 if (!version_compare(PHP_VERSION, '7.0', '>=')) {
-//TODO: implement
-} elseif (!version_compare(get_bloginfo('version'), '6.0.3', '>=')) {
-//TODO: implement
+  //TODO: Implement
+  //printf("<div class='notice notice-warning is-dismissible'>PHP Version nicht kompatibel mit dem Plugin! (> 7.0)");
+} elseif (!version_compare(get_bloginfo('version'), '5.6.1', '>=')) {
+  //TODO: Implement
+  //printf("<div class='notice notice-warning is-dismissible'>Wordpress Version nicht kompatibel mit dem Plugin! (> 5.6.1)");
 } else {
-	require AKZENT_POINTS_OF_INTEREST_PATH . 'includes/plugin.php';
+  require AKZENT_POINTS_OF_INTEREST_PATH . 'includes/plugin.php';
 }

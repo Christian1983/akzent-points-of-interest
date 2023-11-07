@@ -8,7 +8,7 @@ class API
   public $base_url = '';
 
   public function __construct() {
-    if (str_contains(home_url(), 'localhost')) {
+    if (strpos(home_url(), 'localhost') !== false) {
       $this->base_url = 'http://akzentde-web-1:3000/api/v2/hotels';
     } else {
       $this->base_url = 'https://www.akzent.de/api/v2/hotels';
