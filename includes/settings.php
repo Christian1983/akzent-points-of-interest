@@ -24,48 +24,15 @@ class Settings
   }
 
   public function page_init() {
-    add_options_page(
-      'Reiseinspirationen',
-      // page_title
-      'Reiseinspirationen',
-      // menu title
-      'manage_options',
-      // capability
-      'akzent_points_of_interest_settings',
-      // menu_slug
-      [$this, 'create_admin_page'] // function
-    );
+    add_options_page( 'Reiseinspirationen', 'Reiseinspirationen', 'manage_options', 'akzent_points_of_interest_settings', [$this, 'create_admin_page'] );
 
-    register_setting(
-      'akzent_point_of_interest_option_group',
-      // option_group
-      'akzent_point_of_interest_options',
-      // option_name
-      [$this, 'api_key_sanitize'], // sanitize_callback
-    );
+    register_setting( 'akzent_point_of_interest_option_group', 'akzent_point_of_interest_options', [$this, 'api_key_sanitize'] );
 
-    add_settings_section(
-      'akzent_point_of_interest_setting_api_section',
-      // id
-      '',
-      // title
-      [$this, 'section_info_callback'],
-      // callback
-      'akzent-point-of-interest-admin' // page
-    );
+    add_settings_section( 'akzent_point_of_interest_setting_api_section', '', [$this, 'section_info_callback'], 'akzent-point-of-interest-admin' );
 
-    add_settings_field(
-      'api_key',
-      // id
-      'API Key',
-      // title
-      [$this, 'api_key_callback'],
-      // callback
-      'akzent-point-of-interest-admin',
-      // page
-      'akzent_point_of_interest_setting_api_section' // section
-    );
+    add_settings_field( 'api_key', 'API Key', [$this, 'api_key_callback'], 'akzent-point-of-interest-admin', 'akzent_point_of_interest_setting_api_section' );
   }
+
   /**
    * CALLBACKS
    */
